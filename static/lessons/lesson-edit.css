@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --body-color: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  --primary-color: #695CFE;
+  --orange-gradient: linear-gradient(135deg, #ff8a65 0%, #ffb74d 100%);
+  --text-color: #444;
+  --shadow: 0 4px 20px rgba(0,0,0,0.1);
+  --black-color: #0a0909;
+  --accent-gradient: linear-gradient(135deg, #ff8a65 0%, #ffb74d 100%);
+}
+
+.home {
+  /* Scope background/padding to app content area to avoid nested scrollbars */
+  background: var(--body-color);
+  min-height: 100%;
+  padding: 20px;
+  color: var(--text-color);
+}
+
+/* Header */
+.lesson-details-header {
+  background: #fff;
+  margin: 20px auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 25px 30px;
+  position: relative;
+  max-width: 1100px;
+}
+
+.lesson-details-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+}
+
+.lessons-title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.lessons-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--black-color);
+}
+
+.lesson-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+}
+
+.back-btn {
+  background: var(--accent-gradient);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 138, 101, 0.3);
+}
+
+/* Form container */
+.lesson-details-container {
+  background: #fff;
+  margin: 20px auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 40px;
+  max-width: 900px;
+}
+
+.edit-form .form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--black-color);
+}
+
+/* Inputs, textarea, dropdown */
+input[type="text"],
+input[type="number"],
+input[type="url"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+  background: #f9faff;
+  transition: 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(105, 92, 254, 0.15);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Section headers */
+.lesson-section {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.lesson-section h2 {
+  font-size: 18px;
+  color: var(--black-color);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lesson-section h2 i {
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
+/* Dynamic row layout */
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.row input {
+  flex: 1;
+}
+
+/* Add / Remove buttons */
+.add-btn {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  background: #5748d6;
+  transform: translateY(-2px);
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #e45101;
+  font-size: 22px;
+  cursor: pointer;
+  align-self: center;
+  transition: 0.2s;
+}
+
+.remove-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Save button */
+.form-actions {
+  text-align: right;
+  margin-top: 25px;
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+/* Save button */
+.form-actions {
+  text-align: right;
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  background: #c62828;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+}
+
+.cancel-btn:hover {
+  background: #ffcdd2;
+  transform: translateY(-2px);
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkbox-grid li {
+  background: #f5f6fc;
+  border: 1px solid #e0e5ff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: 0.2s ease;
+}
+
+.checkbox-grid li:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+.checkbox-grid li label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.checkbox-grid li input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
+}
+
+

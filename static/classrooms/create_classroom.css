@@ -1,0 +1,442 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.create-classroom-page {
+    min-height: calc(100vh - 60px);
+    padding: clamp(24px, 4vw, 56px);
+    color: var(--text-color);
+}
+
+.create-classroom-page .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.create-classroom-page .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: clamp(20px, 4vw, 28px);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
+.create-classroom-page .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--black-color);
+}
+
+.create-classroom-page .logo i {
+    font-size: 32px;
+    color: var(--primary-color);
+}
+
+.create-classroom-page .logo h2 {
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 600;
+}
+
+.create-classroom-page .page-title h1 {
+    font-size: clamp(28px, 3vw, 36px);
+    color: var(--black-color);
+    margin-bottom: 6px;
+}
+
+.create-classroom-page .page-title p {
+    max-width: 720px;
+    font-size: 15px;
+    color: var(--text-color);
+    line-height: 1.6;
+    color: black;
+}
+
+.create-classroom-page .card {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 20px;
+    padding: clamp(24px, 4vw, 36px);
+    box-shadow: var(--shadow);
+}
+
+.create-classroom-page .message-container {
+    margin-bottom: 24px;
+}
+
+.create-classroom-page .alert {
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: rgba(244, 67, 54, 0.1);
+    border-left: 4px solid #f44336;
+    color: #b71c1c;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.create-classroom-page .form-section + .form-section {
+    margin-top: 32px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.create-classroom-page .form-section h2 {
+    font-size: 20px;
+    color: var(--black-color);
+    margin-bottom: 12px;
+}
+
+.create-classroom-page .form-section p {
+    color: var(--text-color);
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.create-classroom-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.create-classroom-page .form-group label {
+    font-weight: 600;
+    color: var(--black-color);
+}
+
+.create-classroom-page input,
+.create-classroom-page select,
+.create-classroom-page textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    background: var(--input-background);
+    font-size: 14px;
+    color: var(--black-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.create-classroom-page select {
+    cursor: pointer;
+}
+
+.create-classroom-page textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.create-classroom-page input:focus,
+.create-classroom-page select:focus,
+.create-classroom-page textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: var(--input-focus-background);
+    box-shadow: 0 0 0 3px rgba(105, 92, 254, 0.15);
+    transform: translateY(-1px);
+}
+
+.create-classroom-page input.error,
+.create-classroom-page select.error,
+.create-classroom-page textarea.error,
+.create-classroom-page .time-input.error {
+    border-color: #d93025;
+    box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.12);
+}
+
+.create-classroom-page .form-hint {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.create-classroom-page .error-message {
+    display: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: #d93025;
+}
+
+.create-classroom-page .error-message.show {
+    display: block;
+}
+
+.create-classroom-page .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.create-classroom-page .table-container {
+    margin-top: 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+    overflow-x: auto;
+}
+
+.create-classroom-page .timetable {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+}
+
+.create-classroom-page .timetable th,
+.create-classroom-page .timetable td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.create-classroom-page .timetable th {
+    background: var(--primary-color-light);
+    color: var(--black-color);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.create-classroom-page .timetable tbody tr:nth-child(even) {
+    background: rgba(105, 92, 254, 0.04);
+}
+
+.create-classroom-page .timetable tbody tr:hover {
+    background: rgba(105, 92, 254, 0.08);
+}
+
+.create-classroom-page .timetable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.create-classroom-page .remove-row {
+    border: none;
+    background: rgba(244, 67, 54, 0.12);
+    color: #d32f2f;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.create-classroom-page .remove-row:hover {
+    background: rgba(244, 67, 54, 0.22);
+    transform: translateY(-1px);
+}
+
+.create-classroom-page .remove-row:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.create-classroom-page .add-row-btn {
+    margin-top: 20px;
+    border: 2px dashed var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    font-weight: 600;
+    border-radius: 16px;
+    padding: 12px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.create-classroom-page .add-row-btn:hover {
+    background: var(--primary-color-light);
+    transform: translateY(-1px);
+}
+
+.create-classroom-page .hidden-input {
+    display: none;
+}
+
+.create-classroom-page .schedule-row-hidden {
+    display: none;
+}
+
+.create-classroom-page .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 36px;
+}
+
+.create-classroom-page .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 16px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.create-classroom-page .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+.create-classroom-page .btn:focus-visible {
+    outline: 3px solid rgba(105, 92, 254, 0.35);
+    outline-offset: 2px;
+}
+
+.create-classroom-page .btn-orange {
+    background: var(--orange-gradient);
+    color: #fff;
+}
+
+.create-classroom-page .btn-primary {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.create-classroom-page .btn-cancel {
+    background: #fff;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+
+.create-classroom-page .btn-cancel:hover {
+    background: var(--primary-color-light);
+    color: var(--primary-color);
+}
+
+.create-classroom-page .btn-secondary {
+    background: rgba(105, 92, 254, 0.12);
+    color: var(--primary-color);
+}
+
+.create-classroom-page .btn-secondary:hover {
+    background: rgba(105, 92, 254, 0.22);
+}
+
+.create-classroom-page .btn:disabled,
+.create-classroom-page .btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.create-classroom-page .info-text {
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+
+.create-classroom-page .delete-classroom-form {
+    margin: 0;
+    margin-right: auto;
+    display: inline-flex;
+    align-items: center;
+}
+
+.create-classroom-page .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: 0.3s;
+    background: #fff;
+    text-decoration: none;
+}
+
+.create-classroom-page .action-btn i {
+    font-size: 16px;
+}
+
+.create-classroom-page .delete-btn {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.create-classroom-page .delete-btn:hover {
+    background: #ffcdd2;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+    .create-classroom-page .header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .create-classroom-page .form-actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .create-classroom-page {
+        padding: 24px 16px 40px;
+    }
+
+    .create-classroom-page .container {
+        gap: 24px;
+    }
+
+    .create-classroom-page .timetable {
+        min-width: 520px;
+    }
+
+    .create-classroom-page .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .create-classroom-page .form-actions {
+        width: 100%;
+    }
+
+    .create-classroom-page .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .create-classroom-page .header {
+        border-radius: 16px;
+        padding: 20px;
+    }
+
+    .create-classroom-page .page-title {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-classroom-page .header {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .create-classroom-page .timetable {
+        min-width: 460px;
+    }
+
+    .create-classroom-page .add-row-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

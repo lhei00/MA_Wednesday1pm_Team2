@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'classrooms/classrooms.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<div class="courses-header">
+    <div class="courses-title-section">
+        <div class="courses-title">
+            <div class="course-icon">
+                <i class='bx bx-book-content icon'></i>
+            </div>
+            My Classrooms
+        </div>
+        {% if user.is_authenticated and user.role == "INSTRUCTOR" %}
+        <a href="{% url 'create_classroom' %}" class="view-courses">
+            <i class='bx bx-book-bookmark'></i>
+            Create New Classroom
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="courses-grid" id="coursesGrid">
+    {% for classroom in classrooms %}
+    <div class="course-card">
+        <div class="course-card-header">
+            <div class="course-info">
+                <h3>{{ classroom.name }}</h3>
+                {% if classroom.class_code %}
+                <span class="course-code">{{ classroom.class_code }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="course-details">
+            <div class="detail-row">
+                <span class="detail-label">
+                    <i class="bx bx-user-circle"></i>
+                    Classroom Supervisor:
+                </span>
+                <span class="detail-value">{{ classroom.supervisor.get_full_name|default:classroom.supervisor }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    <i class="bx bx-list-ul"></i>
+                    Course:
+                </span>
+                <span class="detail-value">{{ classroom.course }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    <i class="bx bx-group"></i>
+                    Students Enrolled:
+                </span>
+                <span class="detail-value">{{ classroom.student_count|default:0 }}</span>
+            </div>
+        </div>
+        <div class="course-actions">
+            <a class="action-button view-details-btn" href="{% url 'classroom_preview' classroom.id %}">
+                <i class="bx bx-info-circle"></i>
+                View Details
+            </a>
+            {% if user.is_authenticated and user.role == "INSTRUCTOR" %}
+            <a class="action-button manage-classroom-btn" href="{% url 'manage_classroom' classroom.id %}">
+                <i class="bx bx-cog"></i>
+                Manage Classroom
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="white-cover" style="text-align:center;">
+        <p>No classrooms available.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

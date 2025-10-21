@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Classrooms{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'classrooms/classroom-preview.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="courses-header">
+  <div class="courses-title-section">
+    <div class="courses-title">
+      <div class="course-icon"><i class='bx bx-book-content icon'></i></div>
+      My Classrooms
+    </div>
+    <div class="header-actions">
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="cardViewBtn" type="button">
+          <i class='bx bx-grid-alt'></i> Card View
+        </button>
+        <button class="view-toggle-btn" id="listViewBtn" type="button">
+          <i class='bx bx-list-ul'></i> List View
+        </button>
+      </div>
+
+      {# Optional: link to create classroom if you have a route; otherwise remove this button #}
+      {% comment %} <a class="create-classroom-btn" href="{% url 'classroom_create' %}">
+        <i class='bx bx-book-bookmark'></i> Create New Classroom
+      </a> {% endcomment %}
+    </div>
+  </div>
+</div>
+
+{# ---- Card View ---- #}
+<div class="courses-grid active" id="cardView">
+  {% for c in classrooms %}
+  <div class="course-card">
+    <div class="course-card-header">
+      <div class="course-info">
+        <h3>{{ c.name }}</h3>
+        {% if c.classroom_code %}<span class="course-code">{{ c.classroom_code }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="course-details">
+      <div class="detail-row">
+        <span class="detail-label">
+          <i class="bx bx-user-circle"></i> Classroom Supervisor:
+        </span>
+        <span class="detail-value">
+          {{ c.supervisor.get_full_name|default:c.supervisor.email }}
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">
+          <i class="bx bx-list-ul"></i> Course:
+        </span>
+        <span class="detail-value">
+          {{ c.course.course_code }} - {{ c.course.title }}
+        </span>
+      </div>
+      {% if c.meeting_link %}
+      <div class="detail-row">
+        <span class="detail-label">
+          <i class="bx bx-video"></i> Meeting Link:
+        </span>
+        <span class="detail-value">
+          <a href="{{ c.meeting_link }}" target="_blank" rel="noopener">Join meeting</a>
+        </span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="course-actions">
+      <a class="action-button view-details-btn" href="{% url 'classroom_preview' c.id %}">
+        <i class="bx bx-info-circle"></i> View Details
+      </a>
+      {% if c.id in editable_classrooms %}
+      <a class="action-button edit-btn" href="{% url 'manage_classroom' c.id %}">
+        <i class="bx bx-edit"></i> Edit
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p style="margin:20px;">No classrooms yet.</p>
+  {% endfor %}
+</div>
+
+{# ---- List View ---- #}
+<div class="courses-list" id="listView">
+  {% for c in classrooms %}
+  <div class="classroom-list-item">
+    <div class="list-classroom-id">
+      <h3>{{ c.name }}</h3>
+      {% if c.classroom_code %}<span class="course-code">{{ c.classroom_code }}</span>{% endif %}
+    </div>
+
+    <div class="list-classroom-details">
+      <div class="list-detail-item">
+        <i class="bx bx-user-circle"></i>
+        <span class="list-detail-label">Supervisor:</span>
+        <span class="list-detail-value">
+          {{ c.supervisor.get_full_name|default:c.supervisor.email }}
+        </span>
+      </div>
+      <div class="list-detail-item">
+        <i class="bx bx-list-ul"></i>
+        <span class="list-detail-label">Course:</span>
+        <span class="list-detail-value">
+          {{ c.course.course_code }} - {{ c.course.title }}
+        </span>
+      </div>
+      {% if c.meeting_link %}
+      <div class="list-detail-item">
+        <i class="bx bx-video"></i>
+        <span class="list-detail-label">Meeting Link:</span>
+        <span class="list-detail-value">
+          <a href="{{ c.meeting_link }}" target="_blank" rel="noopener">Join meeting</a>
+        </span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="list-classroom-actions">
+      <a class="action-button view-details-btn" href="{% url 'classroom_preview' c.id %}">
+        <i class="bx bx-info-circle"></i> View Details
+      </a>
+      {% if c.id in editable_classrooms %}
+      <a class="action-button edit-btn" href="{% url 'manage_classroom' c.id %}"><i class="bx bx-edit"></i> Edit</a>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p style="margin:20px;">No classrooms yet.</p>
+  {% endfor %}
+</div>
+
+<script>
+  // Session-scoped persistence for this tab
+  const VIEW_STORAGE_KEY = 'classroomViewPreference'; // 'card' | 'list'
+
+  function getSavedView() {
+    try { return sessionStorage.getItem(VIEW_STORAGE_KEY) || 'card'; }
+    catch { return 'card'; }
+  }
+  function saveView(view) {
+    try { sessionStorage.setItem(VIEW_STORAGE_KEY, view); } catch {}
+  }
+  function applyView(view) {
+    const cardView = document.getElementById('cardView');
+    const listView = document.getElementById('listView');
+    const cardBtn = document.getElementById('cardViewBtn');
+    const listBtn = document.getElementById('listViewBtn');
+
+    if (view === 'list') {
+      cardView.classList.remove('active');
+      listView.classList.add('active');
+      cardBtn.classList.remove('active');
+      listBtn.classList.add('active');
+    } else {
+      listView.classList.remove('active');
+      cardView.classList.add('active');
+      listBtn.classList.remove('active');
+      cardBtn.classList.add('active');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyView(getSavedView());
+    document.getElementById('cardViewBtn')?.addEventListener('click', () => { applyView('card'); saveView('card'); });
+    document.getElementById('listViewBtn')?.addEventListener('click', () => { applyView('list'); saveView('list'); });
+  });
+</script>
+{% endblock %}

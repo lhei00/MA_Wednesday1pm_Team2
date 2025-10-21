@@ -1,0 +1,66 @@
+{% load static %}
+<html lang="en">
+<head>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="{% static 'accounts/style-login.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <style>.errors{color:#fff;background:rgba(0,0,0,0.2);border-radius:6px;padding:8px 10px;margin:8px 0;font-size:13px}</style>
+    </head>
+
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <div class="item">
+            <h2 class="logo">
+                <a href="{% url 'role_select' %}" class="logo-link" title="Back to role selection">
+                    <i class='bx bx-devices'></i> Hydra Explorer
+                </a>
+            </h2>
+            <div class="text-item">
+                <h2>Welcome! <br><span>To Our Learning Website</span></h2>
+                <p>We're here to make studying easier, fun and interactive!</p>
+            </div>
+            {% if messages %}
+              <div class="errors">
+                {% for message in messages %}
+                  {{ message }}<br/>
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+
+        <div class="login-section">
+            <div class="form-box login">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <h2>Welcome, Admin!</h2>
+
+                    {% if form.non_field_errors %}
+                      <div class="errors">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-envelope'></i></span>
+                        {{ form.username }}
+                        <label>Email</label>
+                        {% if form.username.errors %}
+                          <div class="errors">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-lock'></i></span>
+                        {{ form.password }}
+                        <label>Password</label>
+                        {% if form.password.errors %}
+                          <div class="errors">{{ form.password.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button class="btn" type="submit">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

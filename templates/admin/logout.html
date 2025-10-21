@@ -1,0 +1,17 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="0;url={% url 'role_select' %}">
+    <title>Logging out…</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 24px; }
+      a { color: #0b5fff; }
+    </style>
+  </head>
+  <body>
+    <p>You have been logged out. Redirecting to the site… If not redirected, <a href="{% url 'role_select' %}">click here</a>.</p>
+  </body>
+  </html>
+

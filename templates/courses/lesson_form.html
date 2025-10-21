@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if object %}Edit Lesson{% else %}Create Lesson{% endif %}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'lessons/lesson-edit.css' %}">
+
+<div class="lesson-details-header">
+  <div class="lessons-title-section">
+    <div class="lessons-title">
+      <div class="lesson-icon">
+        <i class='bx bx-edit'></i>
+      </div>
+      {% if object %}Edit Lesson{% else %}Create Lesson{% endif %}
+    </div>
+    <div class="header-actions">
+      {% if course %}
+      <a class="back-btn" href="{% url 'course_detail' course.id %}"><i class='bx bx-left-arrow-alt'></i> Back to Lessons</a>
+      {% elif object %}
+      <a class="back-btn" href="{% url 'lesson_detail' object.id %}"><i class='bx bx-left-arrow-alt'></i> Back</a>
+      {% endif %}
+    </div>
+  </div>
+  </div>
+
+<div class="lesson-details-container">
+  {% if form.non_field_errors %}
+    <div class="errors" style="margin-bottom:12px; color:#b00020;">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+  {% if form.errors and not form.non_field_errors %}
+    <div class="errors" style="margin-bottom:12px; color:#b00020;">
+      Please correct the errors below.
+    </div>
+  {% endif %}
+  <form class="edit-form" method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Lesson Title</label>
+      {{ form.title }}
+    </div>
+
+    <div class="form-group">
+      <label>Lesson ID</label>
+      {{ form.lesson_code }}
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      {{ form.description }}
+    </div>
+
+    <div class="lesson-section">
+      <h2><i class='bx bx-target-lock'></i> Objectives</h2>
+      <div id="objectives-list"></div>
+      <button type="button" class="add-btn" onclick="addObjective()">+ Add Objective</button>
+      <div style="display:none">{{ form.learning_objectives }}</div>
+    </div>
+
+    <div class="lesson-section">
+      <h2><i class='bx bx-book-reader'></i> Reading List</h2>
+      <div id="reading-list"></div>
+      <button type="button" class="add-btn" onclick="addReading()">+ Add Reading</button>
+      <div style="display:none">{{ form.reading_list }}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Prerequisites</label>
+      {{ form.prerequisites }}
+    </div>
+
+    <div class="lesson-section">
+      <h2><i class='bx bx-clipboard'></i> Assignments</h2>
+      <div id="assignments-list"></div>
+      <button type="button" class="add-btn" onclick="addAssignment()">+ Add Assignment</button>
+      <div style="display:none">{{ form.assignments }}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Duration (hours)</label>
+      {{ form.duration_hours }}
+    </div>
+
+    <div class="form-group">
+      <label>Credits</label>
+      {{ form.credit_points }}
+      {% if form.credit_points.errors %}
+        <div class="errors" style="margin-top:6px; color:#b00020;">
+          {{ form.credit_points.errors }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label>Order</label>
+      {{ form.order }}
+    </div>
+
+    <div class="form-actions" style="margin-top:16px; display:flex; gap:10px;">
+      <button type="submit" class="save-btn"><i class='bx bx-save'></i> Save</button>
+      {% if course %}
+      <a class="cancel-btn" href="{% url 'course_detail' course.id %}"><i class='bx bx-x-circle'></i> Cancel</a>
+      {% elif object %}
+      <a class="cancel-btn" href="{% url 'lesson_detail' object.id %}"><i class='bx bx-x-circle'></i> Cancel</a>
+      {% endif %}
+    </div>
+  </form>
+</div>
+{% block extra_js %}
+<script>
+  function createRow(inputsHtml) {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = inputsHtml + "<button type='button' class='remove-btn'><i class='bx bx-minus-circle'></i></button>";
+    row.querySelector('.remove-btn').onclick = function() { row.remove(); };
+    return row;
+  }
+
+  function addObjective(value = '') {
+    const container = document.getElementById('objectives-list');
+    const row = createRow(`<input type="text" placeholder="Objective" value="${escapeHtml(value)}" required>`);
+    container.appendChild(row);
+  }
+
+  function addReading(title = '', url = '') {
+    const container = document.getElementById('reading-list');
+    const row = createRow(`
+      <input type="text" placeholder="Title" value="${escapeHtml(title)}">
+      <input type="url" placeholder="Link" value="${escapeHtml(url)}">
+    `);
+    container.appendChild(row);
+  }
+
+  function addAssignment(value = '') {
+    const container = document.getElementById('assignments-list');
+    const row = createRow(`<input type="text" placeholder="Assignment" value="${escapeHtml(value)}">`);
+    container.appendChild(row);
+  }
+
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
+  }
+
+  function parseInitialReading(line) {
+    // Split first http occurrence into title + url if present
+    const idx = line.indexOf('http://') >= 0 ? line.indexOf('http://') : line.indexOf('https://');
+    if (idx > -1) {
+      const title = line.slice(0, idx).trim();
+      const url = line.slice(idx).trim();
+      return [title, url];
+    }
+    return [line.trim(), ''];
+  }
+
+  function serializeLists() {
+    const objArea = document.getElementById('id_learning_objectives');
+    const readArea = document.getElementById('id_reading_list');
+    const asgArea = document.getElementById('id_assignments');
+
+    const objectives = Array.from(document.querySelectorAll('#objectives-list .row input[type="text"]'))
+      .map(i => i.value.trim()).filter(Boolean).join('\n');
+
+    const readings = Array.from(document.querySelectorAll('#reading-list .row')).map(row => {
+      const inputs = row.querySelectorAll('input');
+      const title = (inputs[0]?.value || '').trim();
+      const url = (inputs[1]?.value || '').trim();
+      return (title && url) ? `${title} ${url}` : (title || url);
+    }).filter(Boolean).join('\n');
+
+    const assignments = Array.from(document.querySelectorAll('#assignments-list .row input[type="text"]'))
+      .map(i => i.value.trim()).filter(Boolean).join('\n');
+
+    if (objArea) objArea.value = objectives;
+    if (readArea) readArea.value = readings;
+    if (asgArea) asgArea.value = assignments;
+  }
+
+  function populateFromInitial() {
+    const objArea = document.getElementById('id_learning_objectives');
+    const readArea = document.getElementById('id_reading_list');
+    const asgArea = document.getElementById('id_assignments');
+
+    // Clear containers to avoid duplicate rows on re-init
+    document.getElementById('objectives-list').innerHTML = '';
+    document.getElementById('reading-list').innerHTML = '';
+    document.getElementById('assignments-list').innerHTML = '';
+
+    const objectives = (objArea?.value || '').split('\n').map(s => s.trim()).filter(Boolean);
+    if (objectives.length === 0) addObjective(''); else objectives.forEach(addObjective);
+
+    const readings = (readArea?.value || '').split('\n').map(s => s.trim()).filter(Boolean);
+    if (readings.length === 0) addReading('',''); else readings.forEach(line => {
+      const [title, url] = parseInitialReading(line);
+      addReading(title, url);
+    });
+
+    const assignments = (asgArea?.value || '').split('\n').map(s => s.trim()).filter(Boolean);
+    if (assignments.length === 0) addAssignment(''); else assignments.forEach(addAssignment);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Prevent double init when using bfcache/navigation behaviors
+    if (window.__lessonFormInit) return; 
+    window.__lessonFormInit = true;
+    populateFromInitial();
+    const form = document.querySelector('.edit-form');
+    if (form && !form.__boundSerialize) {
+      form.addEventListener('submit', serializeLists);
+      form.__boundSerialize = true;
+    }
+  });
+</script>
+{% endblock %}
+{% endblock %}

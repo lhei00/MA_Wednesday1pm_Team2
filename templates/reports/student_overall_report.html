@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Student Report{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reports/student-overall-report.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-content">
+        <div class="page-title">
+            <div class="title-icon">
+                <i class='bx bx-line-chart'></i>
+            </div>
+            My Report
+        </div>
+        <div class="student-info-badge">
+            <div class="avatar">
+                {{ student.first_name|slice:":1" }}{{ student.last_name|slice:":1" }}
+            </div>
+            <div class="info">
+                <div class="name">{{ student.get_full_name }}</div>
+                <div class="id">{{ student.student_id }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="overall-stats">
+        <div class="stat-card circular-progress-card">
+            <h3><i class='bx bx-book-reader'></i> Overall Progress</h3>
+            <div class="circular-progress">
+                <svg class="progress-ring" width="140" height="140">
+                    <circle class="progress-ring-circle-bg" cx="70" cy="70" r="60"></circle>
+                    <circle class="progress-ring-circle" cx="70" cy="70" r="60"
+                            style="stroke-dasharray: {{ progress_circumference|floatformat:2 }}; stroke-dashoffset: {{ progress_offset|floatformat:2 }}"></circle>
+                </svg>
+                <div class="progress-value">{{ overall_progress|floatformat:1 }}%</div>
+            </div>
+            <div class="label">Across all courses</div>
+        </div>
+        <div class="stat-card orange">
+            <h3><i class='bx bx-medal'></i> Total Credits</h3>
+            <div class="value">{{ total_credits }}</div>
+            <div class="label">Credits earned</div>
+        </div>
+        <div class="stat-card green">
+            <h3><i class='bx bx-check-double'></i> Lessons Completed</h3>
+            <div class="value">{{ lessons_completed }}</div>
+            <div class="label">Out of {{ total_lessons }} total</div>
+        </div>
+        <div class="stat-card pink">
+            <h3><i class='bx bx-book-bookmark'></i> Active Courses</h3>
+            <div class="value">{{ active_courses }}</div>
+            <div class="label">Currently enrolled</div>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h2>
+            <i class='bx bx-book-open'></i>
+            Course Progress
+        </h2>
+        <span class="course-count">{{ courses|length }} Courses</span>
+    </div>
+
+    <div class="courses-grid">
+        {% for course in courses %}
+        <div class="course-card">
+            <div class="course-header">
+                <span class="course-id">{{ course.code }}</span>
+                <span class="course-status status-in-progress">{{ course.status }}</span>
+            </div>
+            <div class="course-name">{{ course.name }}</div>
+            <div class="course-stats">
+                <div class="course-stat">
+                    <span class="stat-label">
+                        <i class='bx bx-check-circle'></i> Completed Lessons
+                    </span>
+                    <span class="stat-value">{{ course.completed_lessons }} / {{ course.total_lessons }}</span>
+                </div>
+                <div class="course-stat">
+                    <span class="stat-label">
+                        <i class='bx bx-medal'></i> Credits Earned
+                    </span>
+                    <span class="stat-value">{{ course.credits_earned }} / {{ course.total_credits }}</span>
+                </div>
+                <div class="course-stat">
+                    <span class="stat-label">
+                        <i class='bx bx-buildings'></i> Active Classrooms
+                    </span>
+                    <span class="stat-value">{{ course.active_classrooms }}</span>
+                </div>
+            </div>
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Course Progress</span>
+                    <span class="progress-percentage">{{ course.progress }}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: {{ course.progress }}%"></div>
+                </div>
+            </div>
+            <a href="{% url 'reports:student_course_report' course.id student.id %}" class="view-details">View Details</a>
+        </div>
+        {% empty %}
+        <p class="no-courses">You are not enrolled in any courses yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="last-updated">
+        <i class='bx bx-refresh'></i>
+        Last updated: {{ last_updated|date:"F j, Y \\a\\t g:i A" }}
+    </div>
+</div>
+{% endblock %}

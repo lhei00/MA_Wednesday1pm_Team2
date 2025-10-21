@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Courses{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'courses/style-course.css' %}">
+
+<div class="courses-header">
+    <div class="courses-title-section">
+        <div class="courses-title">
+            <div class="course-icon">
+                <i class='bx  bx-book-content icon'  ></i>
+            </div>
+            My Courses
+        </div>
+        <div class="header-actions">
+            <div class="view-toggle">
+                <button class="view-toggle-btn active" id="cardViewBtn" type="button">
+                    <i class='bx bx-grid-alt'></i> Card View
+                </button>
+                <button class="view-toggle-btn" id="listViewBtn" type="button">
+                    <i class='bx bx-list-ul'></i> List View
+                </button>
+            </div>
+            <a class="view-courses" href="{% url 'available_courses' %}">
+                <i class='bx bx-book-bookmark'></i>
+                View Available Courses
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="courses-grid active" id="cardView">
+    {% for course in courses %}
+    <div class="course-card">
+        <div class="course-card-header">
+            <div class="course-info">
+                <h3><a href="{% url 'student_course_preview' course.id %}" style="text-decoration:none; color:inherit;">{{ course.title }}</a></h3>
+                {% if course.course_code %}<span class="course-code">{{ course.course_code }}</span>{% endif %}
+            </div>
+            <div class="course-action">
+                <a class="action-btn detail-btn" href="{% url 'student_course_preview' course.id %}" title="Open Course Detail">
+                    <i class='bx bx-book-open'></i>
+                </a>
+            </div>
+        </div>
+        {% if course.description %}
+        <p class="courses-description">{{ course.description }}</p>
+        {% endif %}
+        <div class="course-details">
+            <div class="detail-row">
+                <span class="detail-label">
+                    <i class="bx bx-user-circle"></i>
+                    Instructor:
+                </span>
+                <span class="detail-value">{{ course.instructor.get_full_name|default:course.instructor.email }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    <i class="bx bx-list-ul"></i>
+                    Lessons:
+                </span>
+                <span class="detail-value">{{ course.lesson_count|default:0 }} total lessons</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    <i class="bx bx-door-open"></i>
+                    Active Classrooms:
+                </span>
+                <span class="detail-value">{{ course.classroom_count|default:0 }} available sessions</span>
+            </div>
+        </div>
+        <div class="course-stats">
+            <div class="stats-left">
+                <div class="course-stat">
+                    <i class='bx bx-group'></i>
+                    <span>{{ course.student_count|default:0 }} Classmates</span>
+                </div>
+                <div class="course-stat">
+                    <i class='bx bx-calendar-alt'></i>
+                    <span>{{ course.duration_weeks }} Weeks</span>
+                </div>
+                {% if course.course_code %}
+                <div class="course-stat">
+                    <i class='bx bx-hash'></i>
+                    <span>{{ course.course_code }}</span>
+                </div>
+                {% endif %}
+            </div>
+            <span class="course-status {% if course.status == 'active' %}status-active{% else %}status-draft{% endif %}">{{ course.get_status_display }}</span>
+        </div>
+    </div>
+    {% empty %}
+    <div class="white-cover" style="text-align:center;">
+        <p>You haven't enrolled in any courses yet. Check Available Courses to start.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="courses-list" id="listView">
+    {% for course in courses %}
+    <div class="course-list-item">
+        <div class="list-course-header">
+            <div class="list-course-title">
+                <h3><a href="{% url 'student_course_preview' course.id %}" style="text-decoration:none; color:inherit;">{{ course.title }}</a></h3>
+                {% if course.course_code %}<span class="course-code">{{ course.course_code }}</span>{% endif %}
+            </div>
+            <span class="course-status {% if course.status == 'active' %}status-active{% else %}status-draft{% endif %}">{{ course.get_status_display }}</span>
+        </div>
+        <div class="list-course-details">
+            <div class="list-detail-item">
+                <i class="bx bx-user-circle"></i>
+                <span class="list-detail-label">Instructor:</span>
+                <span class="list-detail-value">{{ course.instructor.get_full_name|default:course.instructor.email }}</span>
+            </div>
+            <div class="list-detail-item">
+                <i class="bx bx-list-ul"></i>
+                <span class="list-detail-label">Lessons:</span>
+                <span class="list-detail-value">{{ course.lesson_count|default:0 }} total lessons</span>
+            </div>
+            <div class="list-detail-item">
+                <i class="bx bx-door-open"></i>
+                <span class="list-detail-label">Active Classrooms:</span>
+                <span class="list-detail-value">{{ course.classroom_count|default:0 }} available sessions</span>
+            </div>
+        </div>
+        <div class="list-course-stats">
+            <div class="list-stat">
+                <i class='bx bx-group'></i>
+                <span>{{ course.student_count|default:0 }} Classmates</span>
+            </div>
+            <div class="list-stat">
+                <i class='bx bx-calendar-alt'></i>
+                <span>{{ course.duration_weeks }} Weeks</span>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="white-cover" style="text-align:center;">
+        <p>You haven't enrolled in any courses yet. Check Available Courses to start.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    const COURSE_VIEW_STORAGE_KEY = 'courseViewPreference';
+
+    function getSavedCourseView() {
+        try { return sessionStorage.getItem(COURSE_VIEW_STORAGE_KEY) || 'card'; }
+        catch { return 'card'; }
+    }
+
+    function saveCourseView(view) {
+        try { sessionStorage.setItem(COURSE_VIEW_STORAGE_KEY, view); } catch {}
+    }
+
+    function applyCourseView(view) {
+        const cardView = document.getElementById('cardView');
+        const listView = document.getElementById('listView');
+        const cardBtn = document.getElementById('cardViewBtn');
+        const listBtn = document.getElementById('listViewBtn');
+
+        if (view === 'list') {
+            cardView?.classList.remove('active');
+            listView?.classList.add('active');
+            cardBtn?.classList.remove('active');
+            listBtn?.classList.add('active');
+        } else {
+            listView?.classList.remove('active');
+            cardView?.classList.add('active');
+            listBtn?.classList.remove('active');
+            cardBtn?.classList.add('active');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        applyCourseView(getSavedCourseView());
+        document.getElementById('cardViewBtn')?.addEventListener('click', () => {
+            applyCourseView('card');
+            saveCourseView('card');
+        });
+        document.getElementById('listViewBtn')?.addEventListener('click', () => {
+            applyCourseView('list');
+            saveCourseView('list');
+        });
+    });
+</script>
+{% endblock %}

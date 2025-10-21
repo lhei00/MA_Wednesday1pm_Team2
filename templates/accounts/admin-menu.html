@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+{% block role_label %}Admin Page{% endblock %}
+
+{% block menu_links %}
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-book-content icon'></i>
+            <span class="text nav-text">Courses</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-calendar-week icon'></i>
+            <span class="text nav-text">Classrooms</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-user icon'></i>
+            <span class="text nav-text">Students</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-bar-chart icon'></i>
+            <span class="text nav-text">Reports</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="{% url 'manage_instructors' %}">
+            <i class='bx bx-user-check icon'></i>
+            <span class="text nav-text">Manage Instructors</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div id="dashboard-main"{% if show_instructor_form %} class="hidden"{% endif %}>
+        <div class="white-cover">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <p class="welcome-message">Welcome Admin!</p>
+            <div class="admin-badge">Administrator Access</div>
+        </div>
+
+        <div class="create-instructor-card" onclick="showInstructorForm()">
+            <div class="card-header">
+                <div class="card-title">
+                    <div class="card-icon">
+                        <i class='bx bx-user icon'></i>
+                    </div>
+                    Create An Instructor Account
+                </div>
+                <div class="card-arrow">
+                    <i class='bx bx-chess-knight'></i>
+                </div>
+            </div>
+            <p class="card-description">
+                Add new instructors to your Learning Management System.
+            </p>
+            <div class="card-features">
+                <span class="feature-tag">Personal Details</span>
+                <span class="feature-tag">Credentials Setup</span>
+                <span class="feature-tag">Instant Access</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="instructor-form" class="instructor-form-section{% if show_instructor_form %} active{% endif %}">
+        <div class="form-header">
+            <div class="form-title">
+                <div class="card-icon">
+                    <i class='bx bx-user icon'></i>
+                </div>
+                Create Instructor Account
+            </div>
+            <button class="back-button" onclick="showDashboard()">
+                <i class='bx bx-arrow-left'></i>
+                Back to Dashboard
+            </button>
+        </div>
+
+        {% if form.non_field_errors %}
+            <div class="errors">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <form class="signup-form" method="post" action="{% url 'create_instructor' %}">
+            {% csrf_token %}
+            <input type="hidden" name="from_dashboard" value="1" />
+
+            <div class="form-group">
+                <label class="form-label"> Title</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="errors">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"> First Name *</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div class="errors">{{ form.first_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"> Last Name *</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <div class="errors">{{ form.last_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"> Email Address *</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="errors">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"> Password *</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="errors">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"> Confirm Password *</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="errors">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    <i class='bx bx-plus'></i>
+                    Create Account
+                </button>
+                <button type="button" class="btn-secondary" onclick="clearForm()">
+                    <i class='bx bx-refresh-cw'></i>
+                    Clear Form
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function showInstructorForm() {
+        document.getElementById('dashboard-main').classList.add('hidden');
+        document.getElementById('instructor-form').classList.add('active');
+    }
+
+    function showDashboard() {
+        document.getElementById('instructor-form').classList.remove('active');
+        document.getElementById('dashboard-main').classList.remove('hidden');
+    }
+
+    function clearForm() {
+        const form = document.querySelector('#instructor-form form');
+        if (!form) return;
+        form.querySelectorAll('input').forEach(input => {
+            if (['hidden','submit','button'].includes(input.type)) return;
+            input.value = '';
+        });
+        form.querySelectorAll('select').forEach(select => {
+            select.selectedIndex = 0;
+        });
+    }
+</script>
+{% endblock %}

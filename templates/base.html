@@ -1,0 +1,160 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>{% block title %}Hydra Explorer{% endblock %}</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'accounts/style-menu.css' %}">
+    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'dark-overrides.css' %}">
+</head>
+
+<body>
+    <nav class ="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.role == 'ADMIN' %}
+                            {% url 'admin_dashboard' as home_url %}
+                            {% url 'admin_dashboard' as courses_url %}
+                        {% elif request.user.role == 'STUDENT' %}
+                            {% url 'student_dashboard' as home_url %}
+                            {% url 'student_courses' as courses_url %}
+                        {% elif request.user.role == 'INSTRUCTOR' %}
+                            {% url 'instructor_dashboard' as home_url %}
+                            {% url 'instructor_courses' as courses_url %}
+                        {% else %}
+                            {% url 'role_select' as home_url %}
+                            {% url 'role_select' as courses_url %}
+                        {% endif %}
+                    {% else %}
+                        {% url 'role_select' as home_url %}
+                        {% url 'role_select' as courses_url %}
+                    {% endif %}
+                    <a href="{{ home_url }}" class="logo-link" style="text-decoration:none;">
+                        <h2 class="logo"><i class='bx bx-devices'></i></h2>
+                    </a>
+                </span>
+
+                <div class="text header-text">
+                    <span class="name">{% block brand_name %}Hydra Explorer{% endblock %}</span>
+                    <span class="profession">{% block role_label %}{{ request.user.get_role_display }} Page{% endblock %}</span>
+                </div>
+            </div>
+
+            <i class='bx bx-caret-left bx-flip-horizontal' onclick="toggleSidebar()"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                    {% block menu_links %}
+                    <li class="nav-link">
+                        <a href="{{ courses_url|default:'#' }}">
+                            <i class='bx bx-book-content icon'></i>
+                            <span class="text nav-text">Courses</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{% url 'classrooms' %}">
+                            <i class='bx bx-calendar-week icon'></i>
+                            <span class="text nav-text">Classrooms</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        {% if request.user.role == 'STUDENT' %}
+                            <a href="{% url 'student_profile' %}">
+                                <i class='bx bx-user icon'></i>
+                                <span class="text nav-text">Students</span>
+                            </a>
+                        {% elif request.user.role == 'INSTRUCTOR' %}
+                            <a href="{% url 'reports:instructor_student_list' %}">
+                                <i class='bx bx-user icon'></i>
+                                <span class="text nav-text">Students</span>
+                            </a>
+                        {% else %}
+                            <a href="#">
+                                <i class='bx bx-user icon'></i>
+                                <span class="text nav-text">Students</span>
+                            </a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-link">
+                        {% if request.user.role == 'ADMIN' %}
+                            <a href="#">
+                        {% elif request.user.role == 'INSTRUCTOR' %}
+                            <a href="{% url 'reports:instructor_report_list' %}">
+                        {% else %}
+                            <a href="{% url 'student_overall_report' %}">
+                        {% endif %}
+                            <i class='bx bx-book-content icon'></i>
+                            <span class="text nav-text">Reports</span>
+                        </a>
+                    </li>
+                    {% endblock %}
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <div class="theme-icon-button" onclick="toggleThemeMenu(event)" title="Change Theme" aria-label="Change Theme">
+                    <i class='bx bx-palette'></i>
+                </div>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text"></span>
+
+                    <div class="toggle-switch" onclick="toggleDarkMode()">
+                        <span class="dm-switch"></span>
+                    </div>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </nav>
+
+    <section class="home">
+        {% block content %}{% endblock %}
+    </section>
+
+    {# Theme selection overlay (loaded once for all pages) #}
+    <div class="theme-menu-overlay" id="themeMenu">
+        <div class="theme-menu">
+            <h3>Select Theme</h3>
+            <div class="theme-options">
+                <button class="theme-btn light" onclick="setTheme('light')">
+                    <i class='bx bx-sun'></i> Light
+                </button>
+                <button class="theme-btn blue" onclick="setTheme('blue')">
+                    <i class='bx bx-water'></i> Blue
+                </button>
+                <button class="theme-btn sepia" onclick="setTheme('sepia')">
+                    <i class='bx bx-book'></i> Sepia
+                </button>
+                <button class="theme-btn forest" onclick="setTheme('forest')">
+                    <i class='bx bx-leaf'></i> Forest
+                </button>
+            </div>
+            <button class="close-theme" onclick="toggleThemeMenu(event)">
+                <i class='bx bx-x'></i> Close
+            </button>
+        </div>
+    </div>
+
+    <script src="{% static 'accounts/darkmode.js' %}" defer></script>
+    <script src="{% static 'accounts/theme.js' %}" defer></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

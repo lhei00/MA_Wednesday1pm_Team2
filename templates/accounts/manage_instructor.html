@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Manage Instructors{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/manage-instructors.css' %}">
+{% endblock %}
+
+{% block menu_links %}
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-book-content icon'></i>
+            <span class="text nav-text">Courses</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-calendar-week icon'></i>
+            <span class="text nav-text">Classrooms</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-user icon'></i>
+            <span class="text nav-text">Students</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="#">
+            <i class='bx bx-bar-chart icon'></i>
+            <span class="text nav-text">Reports</span>
+        </a>
+    </li>
+    <li class="nav-link">
+        <a href="{% url 'manage_instructors' %}">
+            <i class='bx bx-user-check icon'></i>
+            <span class="text nav-text">Manage Instructors</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<div class="manage-instructors-page">
+    <div class="white-cover">
+        <h1 class="dashboard-title">Manage Instructors</h1>
+        <p class="welcome-message">Administrative Area</p>
+    </div>
+
+    <div class="admin-actions">
+        <div class="search-box">
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search instructors..." aria-label="Search instructors">
+        </div>
+    </div>
+
+    <div class="instructors-table-card">
+        <table class="instructors-table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Courses</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="actions-column">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inst in instructors %}
+                <tr>
+                    <td data-label="ID"><a>{{ inst.id }}</a></td>
+                    <td data-label="Name"><a>{{ inst.get_full_name|default:inst.email }}</a></td>
+                    <td data-label="Email"><a>{{ inst.email }}</a></td>
+                    <td data-label="Courses">{{ inst.course_count }}</td>
+                    <td data-label="Status">
+                        {% if inst.is_active %}
+                            <span class="status-badge status-active">Active</span>
+                        {% else %}
+                            <span class="status-badge status-inactive">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Actions" class="actions-cell">
+                        <a class="action-btn edit-btn" href="{% url 'edit_instructor' inst.id %}">Edit</a>
+                        <form method="post" action="{% url 'set_instructor_status' inst.id %}" class="inline-form">
+                            {% csrf_token %}
+                            {% if inst.is_active %}
+                                <input type="hidden" name="action" value="deactivate" />
+                                <button class="action-btn status-toggle" type="submit" data-state="deactivate">Deactivate</button>
+                            {% else %}
+                                <input type="hidden" name="action" value="activate" />
+                                <button class="action-btn status-toggle" type="submit" data-state="activate">Activate</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr class="empty-row">
+                    <td colspan="6">No instructors found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function() {
+        const input = document.querySelector('.search-box input');
+        const rows = document.querySelectorAll('.instructors-table tbody tr');
+        if (!input || !rows.length) return;
+
+        input.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                if (row.classList.contains('empty-row')) return;
+                const text = row.innerText.toLowerCase();
+                const match = !query || text.includes(query);
+                row.style.display = match ? '' : 'none';
+                if (match) visibleCount += 1;
+            });
+
+            const emptyRow = document.querySelector('.instructors-table .empty-row');
+            if (emptyRow) {
+                emptyRow.style.display = visibleCount === 0 ? '' : 'none';
+            }
+        });
+    })();
+</script>
+{% endblock %}

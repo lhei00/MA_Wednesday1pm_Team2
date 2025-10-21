@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ lesson.title }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'lessons/lessonStudentView.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<div class="lesson-details-header">
+  <div class="lessons-title-section">
+    <a href="{% url 'student_course_preview' lesson.course.id %}" class="back-btn">
+      <i class='bx bx-left-arrow-alt'></i> Back to Course
+    </a>
+
+    <div class="lessons-title">
+      <div class="lesson-icon"><i class='bx bx-book-open'></i></div>
+      {{ lesson.title }}
+    </div>
+
+    <div class="header-actions">
+      <div class="progress-wrapper" title="Lesson material completion">
+        <div class="progress-label"><i class='bx bx-target-lock'></i> Progress</div>
+        <div class="progress-container" aria-label="Lesson completion progress">
+          <div id="lesson-progress-bar"
+               class="progress-bar"
+               + data-progress="{{ lesson_materials_percent|default_if_none:'0' }}"></div>
+        </div>
+        <div id="progress-percent" class="progress-percent">
+          {{ lesson_materials_percent|default_if_none:'0' }}%
+        </div>
+      </div>
+
+      <span id="lesson-status-badge"
+            class="lesson-status {% if lesson_progress and lesson_progress.completed %}status-published{% endif %}">
+        {% if lesson_progress and lesson_progress.completed %}Completed{% else %}Incomplete{% endif %}
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="lesson-details-container">
+  {% if lesson.description %}
+    <p class="lesson-full-description">{{ lesson.description }}</p>
+  {% endif %}
+
+  <div class="lesson-meta">
+    {% if lesson.duration_hours %}
+      <div class="meta-item"><i class='bx bx-time'></i> Duration: {{ lesson.duration_hours }} hours</div>
+    {% endif %}
+    <div class="meta-item"><i class='bx bx-medal'></i> Credits: {{ lesson.credit_points }}</div>
+    <div class="meta-item"><i class='bx bx-user'></i> Instructor:
+      {{ lesson.course.instructor.get_full_name|default:lesson.course.instructor.email }}
+    </div>
+    <div class="meta-item"><i class='bx bx-calendar'></i> Created: {{ lesson.created_at|date:"d/m/Y" }}</div>
+    <div class="meta-item"><i class='bx bx-calendar-edit'></i> Updated: {{ lesson.updated_at|date:"d/m/Y" }}</div>
+  </div>
+
+  {# ---- Reading List with checkboxes ---- #}
+  <div class="lesson-section">
+    <h2><i class='bx bx-book-reader'></i> Reading List</h2>
+    <ul class="styled-list checklist">
+      {% for item in reading_list %}
+        <li class="{% if forloop.counter0 in completed_reading_idx %}done{% endif %}">
+          <label>
+            <input type="checkbox"
+                   class="material-checkbox"
+                   data-section="reading"
+                   data-index="{{ forloop.counter0 }}"
+                   {% if forloop.counter0 in completed_reading_idx %}checked{% endif %}>
+            {% if item.url %}
+              <a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.text }}</a>
+            {% else %}
+              {{ item.text }}
+            {% endif %}
+          </label>
+        </li>
+      {% empty %}
+        <li>No readings for this lesson.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {# ---- Assignments with checkboxes ---- #}
+  <div class="lesson-section">
+    <h2><i class='bx bx-clipboard'></i> Assignments</h2>
+    <ul class="styled-list checklist">
+      {% for item in assignments_list %}
+        <li class="{% if forloop.counter0 in completed_assignment_idx %}done{% endif %}">
+          <label>
+            <input type="checkbox"
+                   class="material-checkbox"
+                   data-section="assignment"
+                   data-index="{{ forloop.counter0 }}"
+                   {% if forloop.counter0 in completed_assignment_idx %}checked{% endif %}>
+            {% if item.url %}
+              <a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.text }}</a>
+            {% else %}
+              {{ item.text|default:item }}
+            {% endif %}
+          </label>
+        </li>
+      {% empty %}
+        <li>No assignments for this lesson.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {# ---- Classroom Schedule ---- #}
+  <div class="lesson-section">
+    <h2><i class='bx bx-chalkboard'></i> Classroom Schedule</h2>
+    <div class="classroom-schedule">
+      {% for schedule in lesson.schedules.all %}
+        <div class="classroom-session">
+          <p><i class='bx bx-buildings'></i> Classroom: <strong>{{ schedule.classroom.name }}</strong></p>
+          <p><i class='bx bx-time-five'></i>
+            {{ schedule.get_day_display }} {{ schedule.start_time|time:"g:i A" }} - {{ schedule.end_time|time:"g:i A" }}
+          </p>
+
+          {% if enrolled_schedule_id == schedule.id %}
+            <p><strong>Enrolled</strong></p>
+            <a href="{% url 'unenroll_schedule' schedule.id %}" class="btn btn-primary">Unenroll</a>
+          {% elif not enrolled_schedule_id %}
+            <a href="{% url 'enroll_schedule' schedule.id %}" class="btn btn-primary">Enroll</a>
+          {% endif %}
+        </div>
+      {% empty %}
+        <p>No scheduled classroom sessions for this lesson.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const bar = document.getElementById('lesson-progress-bar');
+  const pctLabel = document.getElementById('progress-percent');
+  const initial = parseFloat(bar?.dataset.progress || '0');
+  if (bar) bar.style.width = initial + '%';
+  if (pctLabel) pctLabel.textContent = (isNaN(initial) ? 0 : initial) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.querySelector('.lesson-details-container');
+  const progressBar = document.getElementById('lesson-progress-bar');
+  const pctLabel = document.getElementById('progress-percent');
+  const statusBadge = document.getElementById('lesson-status-badge');
+  const csrfToken = '{{ csrf_token }}';
+  const toggleUrl = "{% url 'toggle_lesson_progress' lesson.id %}";
+
+  function setBadge(complete) {
+    statusBadge.textContent = complete ? 'Completed' : 'Incomplete';
+    statusBadge.classList.toggle('status-published', !!complete);
+  }
+  function updateRow(li, checked) { li.classList.toggle('done', !!checked); }
+
+  container.addEventListener('change', function(e) {
+    const cb = e.target.closest('.material-checkbox');
+    if (!cb) return;
+
+    const li = cb.closest('li');
+    const isChecked = cb.checked;
+
+    // optimistic UI
+    updateRow(li, isChecked);
+
+    const payload = new URLSearchParams({
+      'completed': isChecked ? 'true' : 'false',
+      'section': cb.dataset.section,
+      'index': cb.dataset.index
+    });
+
+    fetch(toggleUrl, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: payload
+    })
+    .then(r => r.ok ? r.json() : r.json().then(j => Promise.reject(j)))
+    .then(data => {
+      if (typeof data.lesson_materials_percent !== 'undefined') {
+        const p = Number(data.lesson_materials_percent) || 0;
+        progressBar.style.width = p + '%';
+        if (pctLabel) pctLabel.textContent = p + '%';
+      }
+      if (typeof data.lesson_completed !== 'undefined') {
+        setBadge(data.lesson_completed);
+      }
+      if (data.inline_completed !== undefined) {
+        cb.checked = !!data.inline_completed;
+      }
+      updateRow(li, cb.checked);
+    })
+    .catch(err => {
+      console.error('Error updating progress:', err);
+      cb.checked = !isChecked; // revert on failure
+      updateRow(li, cb.checked);
+      alert(err && err.error ? err.error : 'Failed to save progress');
+    });
+  });
+});
+</script>
+{% endblock %}

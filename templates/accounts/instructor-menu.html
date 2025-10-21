@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Instructor Dashboard{% endblock %}
+{% block role_label %}Instructor Page{% endblock %}
+
+{% block content %}
+    <div id="dashboard-main">
+        <div class="white-cover">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <p class="welcome-message">Welcome Instructor!</p>
+            <div class="admin-badge">Instructor Access</div>
+        </div>
+
+        <div class="create-course-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <div class="card-icon">
+                        <i class='bx bx-book icon'></i>
+                    </div>
+                    Manage Your Courses
+                </div>
+                <div class="card-arrow">
+                    <i class='bx bx-chevron-right'></i>
+                </div>
+            </div>
+            <p class="card-description">
+                View and manage the courses you are teaching.
+            </p>
+            <div class="card-features">
+                <span class="feature-tag">Assignments</span>
+                <span class="feature-tag">Lectures</span>
+                <span class="feature-tag">Class Materials</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+</script>
+{% endblock %}

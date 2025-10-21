@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'classrooms/classroom_preview.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="header">
+    <div class="logo">
+        <i class="bx bx-book-content"></i>
+        <span>Course Manager</span>
+    </div>
+    <div class="user-profile">
+        <div class="user-avatar">
+            {{ classroom.instructor_name|first|upper }}{{ classroom.instructor_name|slice:"1:2"|upper }}
+        </div>
+        <div>
+            <p><strong>{{ classroom.instructor_name }}</strong></p>
+            <p>{{ classroom.instructor_email }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="page-title">
+    <h1>Classroom Details</h1>
+</div>
+
+<div class="classroom-info">
+    <div class="info-item">
+        <h3>Class Code</h3>
+        <p>{{ classroom.class_code }}</p>
+    </div>
+    <div class="info-item">
+        <h3>Course</h3>
+        <p>{{ classroom.course_name }}</p>
+    </div>
+    <div class="info-item">
+        <h3>Supervisor</h3>
+        <p>{{ classroom.supervisor_email }}</p>
+    </div>
+    <div class="info-item">
+        <h3>Duration</h3>
+        <p>{{ classroom.duration }}</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Lesson Schedule</h2>
+    </div>
+
+    <div class="table-container">
+        <table class="lessons-table">
+            <thead>
+            <tr>
+                <th>Day</th>
+                <th>Lesson</th>
+                <th>Start</th>
+                <th>End</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for lesson in lessons %}
+            <tr>
+                <td>{{ lesson.day }}</td>
+                <td>{{ lesson.title }}</td>
+                <td>{{ lesson.start_time }}</td>
+                <td>{{ lesson.end_time }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="no-data">No lessons scheduled yet</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

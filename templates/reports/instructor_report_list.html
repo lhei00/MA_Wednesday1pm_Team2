@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}<strong>Instructor Reports</strong>{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reports/instructor-report.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="instructor-report-page">
+<div class="report-header-card">
+    <div class="report-header-left">
+        <div class="report-icon">
+            <i class='bx bx-bar-chart'></i>
+        </div>
+        <h2>Instructor Reports</h2>
+    </div>
+    <div class="report-header-right">
+        <div class="user-avatar">
+            {{ request.user.first_name|first|upper }}{{ request.user.first_name|slice:"1:2"|upper }}
+        </div>
+        <div class="user-info">
+            <p class="user-name"><strong>{{ request.user.get_full_name }}</strong></p>
+            <p class="user-email">{{ request.user.email }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="page-title">
+    <h1>All Student Progress Overview</h1>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="progress-overview">
+    <div class="progress-card">
+        <h3>Total Students</h3>
+        <div class="number">{{ summary.total_students }}</div>
+    </div>
+    <div class="progress-card">
+        <h3>Courses Taught</h3>
+        <div class="number">{{ summary.courses_taught }}</div>
+    </div>
+    <div class="progress-card">
+        <h3>Average Progress</h3>
+        <div class="percentage">{{ summary.avg_progress }}%</div>
+    </div>
+</div>
+
+<!-- Toggle -->
+<div class="report-view-toolbar">
+    <div class="report-view-toggle" role="tablist" aria-label="Choose report grouping">
+        <button type="button" class="toggle-btn active" data-report-view="courses" role="tab" aria-selected="true" aria-controls="reportViewCourses" tabindex="0">
+            <i class='bx bx-collection'></i> By Courses
+        </button>
+        <button type="button" class="toggle-btn" data-report-view="students" role="tab" aria-selected="false" aria-controls="reportViewStudents" tabindex="-1">
+            <i class='bx bx-user-circle'></i> All Students
+        </button>
+    </div>
+</div>
+
+<!-- PER COURSE STUDENT TABLE -->
+<section class="report-view-section active" id="reportViewCourses" role="tabpanel" aria-labelledby="view-courses-heading">
+    <h2 id="view-courses-heading" class="visually-hidden">Student progress grouped by courses</h2>
+    {% for report in course_reports %}
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="bx bx-book-content"></i> {{ report.course.title }}</h3>
+        </div>
+        <div class="table-container">
+            <table class="lessons-table">
+                <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Email</th>
+                    <th>Overall Progress</th>
+                    <th>Credits</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for s in report.students %}
+                <tr>
+                    <td class="student-cell">
+                        <div class="student-avatar">{{ s.name|slice:":2"|upper }}</div>
+                        <span>{{ s.name }}</span>
+                    </td>
+                    <td>{{ s.email }}</td>
+                    <td>
+                        <div class="progress-bar"><div class="progress-fill" style="width:{{ s.progress_percent }}%"></div></div>
+                        <span class="progress-label">{{ s.progress_percent }}%</span>
+                    </td>
+                    <td>{{ s.credits }}/120</td>
+                    <td>
+                        <a class="view-btn" href="{% url 'reports:student_course_report' report.course.id s.id %}?origin=instructor_reports">
+                            <i class="bx bx-show"></i> View
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="no-data">No enrolled students</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% empty %}
+    <p class="no-data">You have no courses assigned yet.</p>
+    {% endfor %}
+</section>
+
+<section class="report-view-section" id="reportViewStudents" role="tabpanel" aria-labelledby="view-students-heading" hidden>
+    <h2 id="view-students-heading" class="visually-hidden">All students progress list</h2>
+    <div class="card">
+        <div class="card-header">
+            <h3><i class='bx bx-user-pin'></i> All Students</h3>
+        </div>
+        <div class="table-container">
+            <table class="students-flat-table">
+                <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Email</th>
+                    <th>Courses</th>
+                    <th>Overall Progress</th>
+                    <th>Credits</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for student in all_students %}
+                <tr>
+                    <td class="student-cell">
+                        <div class="student-avatar">{{ student.name|slice:":2"|upper }}</div>
+                        <span>{{ student.name }}</span>
+                    </td>
+                    <td>{{ student.email }}</td>
+                    <td>
+                        {% if student.courses %}
+                        <div class="courses-chip-list">
+                            {% for title in student.courses %}
+                            <span class="course-chip">{{ title }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <span class="muted">None</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="progress-bar"><div class="progress-fill" style="width:{{ student.progress_percent }}%"></div></div>
+                        <span class="progress-label">{{ student.progress_percent }}%</span>
+                    </td>
+                    <td>{{ student.credits }}/120</td>
+                    <td>
+                        <a class="view-btn" href="{% url 'reports:student_profile' student.id %}">
+                            <i class="bx bx-show"></i> View
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="no-data">No student data available.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const STORAGE_KEY = 'instructorReportView';
+    const toggleButtons = document.querySelectorAll('.toggle-btn[data-report-view]');
+    const sections = {
+        courses: document.getElementById('reportViewCourses'),
+        students: document.getElementById('reportViewStudents'),
+    };
+
+    function setActive(view) {
+        const target = view in sections ? view : 'courses';
+        try {
+            sessionStorage.setItem(STORAGE_KEY, target);
+        } catch (err) {
+            // ignore sessionStorage failures
+        }
+
+        toggleButtons.forEach(btn => {
+            const isActive = btn.dataset.reportView === target;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', String(isActive));
+            btn.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+
+        Object.entries(sections).forEach(([key, section]) => {
+            const shouldShow = key === target;
+            section.classList.toggle('active', shouldShow);
+            section.toggleAttribute('hidden', !shouldShow);
+        });
+    }
+
+    toggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => setActive(btn.dataset.reportView));
+        btn.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                setActive(btn.dataset.reportView);
+            }
+        });
+    });
+
+    let initialView = 'courses';
+    try {
+        initialView = sessionStorage.getItem(STORAGE_KEY) || 'courses';
+    } catch (err) {
+        initialView = 'courses';
+    }
+    setActive(initialView);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --body-color: #f5f7fa;
+    --primary-color: #695CFE;
+    --text-color: #707070;
+    --black-color: #0a0909;
+    --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    --orange-gradient: linear-gradient(135deg, #ff8a65 0%, #ffb74d 100%);
+}
+
+body {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    min-height: 100vh;
+    color: var(--text-color);
+    background-attachment: fixed;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--black-color);
+}
+
+.logo i {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.header-actions .btn-orange {
+    background: var(--orange-gradient);
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.page-title h1 {
+    font-size: 28px;
+    color: var(--black-color);
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.page-title p {
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.card-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.card-header h2 {
+    color: var(--black-color);
+    font-size: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.classrooms-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.classrooms-table th,
+.classrooms-table td {
+    border: 1px solid #eee;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.classrooms-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: var(--black-color);
+}
+
+.classrooms-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.badge-success { background-color: #4caf50; }
+.badge-warning { background-color: #ff9800; }
+.badge-primary { background-color: #695CFE; }
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.action-buttons .btn {
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-purple { background-color: #9c27b0; }
+.btn-success { background-color: #4caf50; }
+.btn-info { background-color: #03a9f4; }
+.btn-danger { background-color: #f44336; }

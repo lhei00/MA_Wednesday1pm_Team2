@@ -1,0 +1,180 @@
+{% load static %}
+<html lang="en">
+<head>
+    <title>Login and Register Page</title>
+    <link rel="stylesheet" href="{% static 'accounts/style-login.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <style>
+    .errors{color:#fff;background:rgba(0,0,0,0.2);border-radius:6px;padding:8px 10px;margin:8px 0;font-size:13px}
+    .login-section .form-box.register { overflow-y: auto; align-items: flex-start; padding-top: 24px; }
+    .input-box select { width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 16px; color: #fff; }
+    .input-box select ~ label { top: -5px; }
+    .input-box select option { color: #000; }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <div class="item">
+            <h2 class="logo">
+                <a href="{% url 'role_select' %}" class="logo-link" title="Back to role selection">
+                    <i class='bx bx-devices'></i> Hydra Explorer
+                </a>
+            </h2>
+            <div class="text-item">
+                <h2>Welcome! <br><span>To Our Learning Website</span></h2>
+                <p>We're here to make studying easier, fun and interactive!</p>
+            </div>
+            {% if messages %}
+              <div class="errors">
+                {% for message in messages %}
+                  {{ message }}<br/>
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+
+        <div class="login-section{% if open_register %} active{% endif %}">
+            <!-- Login form -->
+            <div class="form-box login">
+                <form method="post" action="{% url 'login_student' %}">
+                    {% csrf_token %}
+                    <h2>Welcome, Student!</h2>
+
+                    {# Errors are handled via Django messages for consistent layout #}
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-envelope'></i></span>
+                        {{ form.username }}
+                        <label>Email</label>
+                        {% if form.username.errors %}
+                          <div class="errors">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-lock'></i></span>
+                        {{ form.password }}
+                        <label>Password</label>
+                        {% if form.password.errors %}
+                          <div class="errors">{{ form.password.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button class="btn" type="submit">Log In</button>
+                    <div class="create-account">
+                        <p>Create A New Account? <a href="#" class="register-link">Sign Up</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Register form -->
+            <div class="form-box register">
+                <form method="post" action="{% url 'signup_student' %}">
+                    {% csrf_token %}
+                    <h2>Sign Up</h2>
+
+                    {% if signup_form.non_field_errors %}
+                    <div class="errors">{{ signup_form.non_field_errors }}</div>
+                    {% endif %}
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-user'></i></span>
+                        {{ signup_form.title }}
+                        <label>Title</label>
+                        {% if signup_form.title.errors %}
+                          <div class="errors">{{ signup_form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-user'></i></span>
+                        {{ signup_form.first_name }}
+                        <label>First name</label>
+                        {% if signup_form.first_name.errors %}
+                          <div class="errors">{{ signup_form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-user'></i></span>
+                        {{ signup_form.last_name }}
+                        <label>Last name</label>
+                        {% if signup_form.last_name.errors %}
+                          <div class="errors">{{ signup_form.last_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-envelope'></i></span>
+                        {{ signup_form.email }}
+                        <label>Email</label>
+                        {% if signup_form.email.errors %}
+                          <div class="errors">{{ signup_form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-lock'></i></span>
+                        {{ signup_form.password1 }}
+                        <label>Password</label>
+                        {% if signup_form.password1.errors %}
+                          <div class="errors">{{ signup_form.password1.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><i class='bx bx-lock'></i></span>
+                        {{ signup_form.password2 }}
+                        <label>Confirm Password</label>
+                        {% if signup_form.password2.errors %}
+                          <div class="errors">{{ signup_form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="auto-fields">
+                        <h3>User Account Details</h3>
+                        <div class="auto-field">
+                            <span>Status:</span>
+                            <span id="statusValue">Inactive</span>
+                        </div>
+                        <div class="auto-field">
+                            <span>Courses Enrolled:</span>
+                            <span id="coursesValue">None</span>
+                        </div>
+                        <div class="auto-field">
+                            <span>Lessons Completed:</span>
+                            <span id="lessonsValue">0</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" type="submit">Create Account</button>
+                    <div class="create-account">
+                        <p>Already Have An Account? <a href="#" class="login-link">Sign In</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const loginSection = document.querySelector('.login-section');
+        const registerLink = document.querySelector('.register-link');
+        const loginLink = document.querySelector('.login-link');
+
+        if (registerLink) {
+          registerLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              loginSection.classList.add('active');
+          });
+        }
+        if (loginLink) {
+          loginLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              loginSection.classList.remove('active');
+          });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Students - Hydra Explorer{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'reports/student-list.css' %}">
+
+<div class="students-header">
+    <div class="students-title-section">
+        <div class="students-title">
+            <div class="students-icon"><i class='bx bx-user'></i></div>
+            Students
+        </div>
+    </div>
+</div>
+
+<div class="students-actions">
+    <form method="get" class="students-filters">
+        <div class="search-box">
+            <i class='bx bx-search'></i>
+            <input type="text" name="q" value="{{ search_query }}" placeholder="Search students..." aria-label="Search students">
+        </div>
+        <div class="filter-select-wrapper">
+            <label for="course-filter" class="visually-hidden">Filter by course</label>
+            <select id="course-filter" name="course" class="filter-select" aria-label="Filter by course">
+                <option value="">All courses</option>
+                {% for course in courses %}
+                <option value="{{ course.id }}" {% if course.id|stringformat:"s" == selected_course %}selected{% endif %}>{{ course.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="filter-apply-btn">Apply</button>
+    </form>
+</div>
+
+<div class="students-container">
+    {% if students %}
+    <table class="students-table">
+        <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Profile</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.student_id }}</td>
+            <td>{{ student.get_full_name|default:student.username }}</td>
+            <td>{{ student.email }}</td>
+            <td>
+                <a href="{% url 'reports:student_profile' student.id %}" class="view-btn">View Profile</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">No students enrolled yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

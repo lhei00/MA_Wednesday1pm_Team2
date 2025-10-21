@@ -1,0 +1,1265 @@
+﻿/* Dark mode overrides for course-related layouts */
+body.dark .course-details-header,
+body.dark .course-details-container,
+body.dark .courses-header,
+body.dark .course-card,
+body.dark .modal-content {
+    background: #2b2d3c;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .course-card-header,
+body.dark .course-card-footer,
+body.dark .course-section,
+body.dark .course-meta {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .course-card-header {
+    background: rgba(43, 45, 60, 0.85);
+}
+
+body.dark .courses-title,
+body.dark .course-info h3,
+body.dark .course-details-container .course-header h1,
+body.dark .course-card .detail-label,
+body.dark .course-card .detail-value,
+body.dark .course-details,
+body.dark .course-full-description {
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark .course-code,
+body.dark .course-id {
+    background: rgba(105, 92, 254, 0.24);
+    color: #dee2ff;
+}
+
+body.dark .course-section .lesson-item,
+body.dark .course-section .student-item,
+body.dark .course-section .classroom-item {
+    background: rgba(105, 92, 254, 0.18);
+    color: #e6e9ff;
+    border-left-color: rgba(149, 132, 255, 0.75);
+}
+
+body.dark .course-section .lesson-item:hover,
+body.dark .course-section .student-item:hover,
+body.dark .course-section .classroom-item:hover {
+    background: rgba(105, 92, 254, 0.28);
+}
+
+body.dark .lesson-tag,
+body.dark .course-card .lesson-badge {
+    background: rgba(144, 202, 249, 0.25);
+    color: #d3e9ff;
+}
+
+body.dark .student-id,
+body.dark .status-active,
+body.dark .ongoing-lessons {
+    background: rgba(129, 199, 132, 0.28);
+    color: #c8f7ce;
+}
+
+body.dark .status-draft,
+body.dark #courseLimitMsg {
+    background: rgba(255, 196, 122, 0.38);
+    color: #ffd180;
+    border-left-color: #ffb74d;
+}
+
+body.dark .course-card .action-btn,
+body.dark .action-btn {
+    color: rgba(211, 216, 255, 0.78);
+}
+
+body.dark .action-btn.edit-btn,
+body.dark .course-card .action-btn[data-role="edit"] {
+    background: rgba(144, 202, 249, 0.2);
+    color: #d5ecff;
+}
+
+body.dark .action-btn.edit-btn:hover,
+body.dark .course-card .action-btn[data-role="edit"]:hover {
+    background: rgba(144, 202, 249, 0.32);
+}
+
+body.dark .action-btn.delete-btn,
+body.dark .course-card .action-btn[data-role="delete"] {
+    background: rgba(255, 138, 128, 0.22);
+    color: #ffd1d3;
+}
+
+body.dark .action-btn.delete-btn:hover,
+body.dark .course-card .action-btn[data-role="delete"]:hover {
+    background: rgba(255, 138, 128, 0.32);
+}
+
+body.dark .lesson-item .lesson-link {
+    background: rgba(105, 92, 254, 0.18);
+    color: #e6e9ff;
+    border-left-color: rgba(149, 132, 255, 0.75);
+}
+
+body.dark .lesson-item .lesson-link:hover {
+    background: rgba(105, 92, 254, 0.28);
+}
+
+/* Dark mode overrides for lessons */
+body.dark .lesson-details-header,
+body.dark .lesson-details-container {
+    background: #2b2d3c;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .lessons-title,
+body.dark .lesson-header h1,
+body.dark .lesson-full-description {
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark .lesson-id {
+    background: rgba(105, 92, 254, 0.24);
+    color: #dee2ff;
+}
+
+body.dark .lesson-section,
+body.dark .normal-list li,
+body.dark .styled-list li,
+body.dark .reading-list li a {
+    background: rgba(105, 92, 254, 0.18);
+    color: #e6e9ff;
+    border-left-color: rgba(149, 132, 255, 0.75);
+}
+
+body.dark .styled-list li:hover,
+body.dark .reading-list li a:hover,
+body.dark .classroom-session:hover {
+    background: rgba(105, 92, 254, 0.28);
+}
+
+body.dark .lesson-section h2,
+body.dark .lesson-section h2 i,
+body.dark .prerequisite-tag {
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark .prerequisite-tag {
+    background: rgba(255, 152, 0, 0.15);
+    color: #ffc980;
+}
+
+body.dark .lesson-meta,
+body.dark .meta-item,
+body.dark .meta-item i {
+    color: rgba(211, 216, 255, 0.78);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .lesson-status.status-published {
+    background: rgba(51, 146, 56, 0.2);
+    color: #c8f7ce;
+}
+
+/* Buttons */
+body.dark .back-btn,
+body.dark .action-btn,
+body.dark .save-btn,
+body.dark .cancel-btn,
+body.dark .add-btn,
+body.dark .remove-btn {
+    color: #d3e9ff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .back-btn,
+body.dark .add-btn,
+body.dark .save-btn {
+    background: rgba(105, 92, 254, 0.3);
+}
+
+body.dark .back-btn:hover,
+body.dark .add-btn:hover,
+body.dark .save-btn:hover {
+    background: rgba(105, 92, 254, 0.45);
+}
+
+body.dark .cancel-btn {
+    background: rgba(198, 40, 40, 0.3);
+}
+
+body.dark .cancel-btn:hover {
+    background: rgba(198, 40, 40, 0.45);
+}
+
+body.dark .remove-btn {
+    color: rgba(255, 152, 1, 0.7);
+}
+
+body.dark .remove-btn:hover {
+    color: rgba(255, 152, 1, 1);
+}
+
+/* Classroom sessions as links */
+body.dark .classroom-schedule .classroom-session {
+    background: rgba(105, 92, 254, 0.18);
+    color: #e6e9ff;
+    border-left-color: rgba(149, 132, 255, 0.75);
+}
+
+body.dark .classroom-schedule .classroom-session p,
+body.dark .classroom-schedule .classroom-session i {
+    color: #d3e9ff;
+}
+
+/* Dark mode overrides for edit lesson form */
+body.dark .lesson-details-container,
+body.dark .edit-form {
+    background: #2b2d3c;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark .edit-form label {
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark input[type="text"],
+body.dark input[type="number"],
+body.dark input[type="url"],
+body.dark textarea,
+body.dark select {
+    background: #3a3c50;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark input:focus,
+body.dark textarea:focus,
+body.dark select:focus {
+    border-color: #695CFE;
+    box-shadow: 0 0 0 2px rgba(105, 92, 254, 0.3);
+    outline: none;
+}
+
+body.dark .row input {
+    background: #3a3c50;
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark .add-btn {
+    background: #695CFE;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .add-btn:hover {
+    background: #5748d6;
+}
+
+body.dark .remove-btn {
+    color: #ffb74d;
+}
+
+body.dark .remove-btn:hover {
+    color: #ffc658;
+}
+
+body.dark .save-btn {
+    background: #28a745;
+    color: white;
+}
+
+body.dark .save-btn:hover {
+    background: #218838;
+}
+
+body.dark .cancel-btn {
+    background: #c62828;
+    color: white;
+}
+
+body.dark .cancel-btn:hover {
+    background: #ff6f6f;
+}
+
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p,
+body.dark span,
+body.dark label,
+body.dark td,
+body.dark th,
+body.dark .detail-value,
+body.dark .course-code,
+body.dark .badge,
+body.dark .info-item p,
+body.dark .lessons-table td,
+body.dark .classrooms-table td {
+    color: var(--text-color) !important;
+}
+
+/* Header */
+body.dark .header,
+body.dark .create-classroom-page .header {
+    background: rgba(43, 45, 60, 0.95);
+    color: #e6e9ff;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* Logo and icons in header */
+body.dark .logo i {
+    color: #695CFE;
+}
+
+/* Page title */
+body.dark .page-title h1,
+body.dark .page-title p {
+    color: #e6e9ff;
+}
+
+/* Cards */
+body.dark .card,
+body.dark .create-classroom-page .card {
+    background: rgba(43, 45, 60, 0.85);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    color: #e6e9ff;
+}
+
+/* Card headers */
+body.dark .card-header h2 {
+    color: #e6e9ff;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Classroom info boxes */
+body.dark .info-item {
+    background: rgba(43, 45, 60, 0.85);
+    border-left-color: rgba(105, 92, 254, 0.75);
+    color: #e6e9ff;
+}
+
+body.dark .info-item h3,
+body.dark .info-item p {
+    color: #e6e9ff;
+}
+
+/* Warning boxes */
+body.dark .info-item.warning {
+    background: rgba(255, 152, 0, 0.15);
+    border-left-color: rgba(255, 152, 0, 0.8);
+    color: #fff7e6;
+}
+
+/* Duration / special info boxes */
+body.dark .info-item.duration {
+    background: rgba(105, 92, 254, 0.18);
+    border-left-color: rgba(105, 92, 254, 0.75);
+}
+
+/* Tables */
+body.dark .classrooms-table,
+body.dark .lessons-table,
+body.dark .timetable {
+    background: rgba(43, 45, 60, 0.85);
+    color: #e6e9ff;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark .classrooms-table th,
+body.dark .lessons-table th,
+body.dark .timetable th {
+    background: rgba(105, 92, 254, 0.2);
+    color: #e6e9ff;
+}
+
+body.dark .classrooms-table td,
+body.dark .lessons-table td,
+body.dark .timetable td {
+    color: #e6e9ff;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .classrooms-table tbody tr:hover,
+body.dark .lessons-table tbody tr:hover,
+body.dark .timetable tbody tr:hover {
+    background: rgba(105, 92, 254, 0.25);
+}
+
+/* Buttons */
+body.dark .btn,
+body.dark .action-buttons .btn,
+body.dark .view-courses,
+body.dark .course-action .view-courses,
+body.dark .back-btn,
+body.dark .save-btn,
+body.dark .cancel-btn,
+body.dark .add-btn,
+body.dark .remove-btn {
+    color: #e6e9ff;
+}
+
+body.dark .btn-primary,
+body.dark .btn-orange,
+body.dark .btn-success,
+body.dark .btn-info,
+body.dark .btn-danger,
+body.dark .btn-purple {
+    background: rgba(105, 92, 254, 0.3);
+    color: #e6e9ff;
+}
+
+body.dark .btn-cancel,
+body.dark .btn-secondary {
+    background: rgba(43, 45, 60, 0.6);
+    color: #e6e9ff;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark .btn:hover,
+body.dark .action-buttons .btn:hover,
+body.dark .view-courses:hover {
+    filter: brightness(1.2);
+}
+
+/* Inputs and form fields */
+body.dark input,
+body.dark select,
+body.dark textarea {
+    background: rgba(43, 45, 60, 0.75);
+    color: #e6e9ff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark input:focus,
+body.dark select:focus,
+body.dark textarea:focus {
+    border-color: #695CFE;
+    box-shadow: 0 0 0 2px rgba(105, 92, 254, 0.25);
+}
+
+
+
+/* Scrollbar for tables in dark mode */
+body.dark .table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+body.dark .table-container::-webkit-scrollbar-thumb {
+    background: rgba(105, 92, 254, 0.4);
+    border-radius: 4px;
+}
+
+body.dark .table-container::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+
+/* Dark mode overrides for student report */
+body.dark .student-report-header,
+body.dark .student-report-container {
+    background: #2b2d3c;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .student-title,
+body.dark .student-report-container h1,
+body.dark .student-report-container h2,
+body.dark .student-report-container h3 {
+    color: rgba(234, 236, 255, 0.88);
+}
+
+body.dark .student-report-container,
+body.dark .student-report-page,
+body.dark .student-report-container .student-email,
+body.dark .student-report-container .summary-card h3,
+body.dark .student-report-container .empty-progress-text {
+    color: rgba(214, 218, 255, 0.82);
+}
+
+body.dark .student-avatar {
+    background: rgba(105, 92, 254, 0.6);
+    color: #f4f6ff;
+}
+
+body.dark .student-id {
+    background: rgba(105, 92, 254, 0.24);
+    color: #dee2ff;
+}
+
+body.dark .summary-card {
+    background: rgba(105, 92, 254, 0.18);
+    border-left-color: rgba(149, 132, 255, 0.75);
+}
+
+body.dark .summary-card .summary-number {
+    color: #d7dcff;
+}
+
+body.dark .empty-progress {
+    background: rgba(255, 183, 77, 0.15);
+    border-color: rgba(255, 183, 77, 0.45);
+}
+
+body.dark .empty-progress-icon {
+    background: rgba(255, 183, 77, 0.25);
+    color: #ffd9a6;
+}
+
+body.dark .student-section {
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .classroom-item {
+    background: rgba(105, 92, 254, 0.18);
+    border-left-color: rgba(149, 132, 255, 0.75);
+    color: #e6e9ff;
+}
+
+body.dark .classroom-code,
+body.dark .classroom-meta span {
+    color: rgba(214, 218, 255, 0.76);
+}
+
+body.dark .empty-row {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(214, 218, 255, 0.72);
+}
+
+body.dark .student-meta .meta-item {
+    background: rgba(43, 45, 60, 0.7);
+    color: rgba(214, 218, 255, 0.8);
+}
+
+body.dark .student-meta .meta-item i {
+    color: rgba(149, 132, 255, 0.9);
+}
+
+body.dark .student-status.status-active {
+    background: rgba(129, 199, 132, 0.28);
+    color: #c8f7ce;
+}
+
+body.dark .student-status.status-draft {
+    background: rgba(255, 196, 122, 0.38);
+    color: #ffd180;
+}
+
+body.dark .course-meta .meta-label,
+body.dark .course-meta .meta-value {
+    color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark .course-actions {
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .view-details-btn {
+    background: rgba(105, 92, 254, 0.2);
+    border-color: rgba(149, 132, 255, 0.5);
+    color: #dce1ff;
+}
+
+body.dark .view-details-btn:hover {
+    background: rgba(105, 92, 254, 0.35);
+}
+
+body.dark .manage-classroom-btn {
+    background: rgba(255, 183, 77, 0.28);
+    color: #ffe5c1;
+}
+
+body.dark .course-actions .action-button {
+    color: #e6e9ff;
+}
+
+
+/* ================================
+   STUDENT PROFILE (Dark Mode - Consistent)
+==================================*/
+
+body.dark .student-profile-header {
+    background: #2b2d3c;
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+body.dark .student-profile-header::before {
+    background: rgba(105,92,254,0.35);
+}
+
+body.dark .student-title,
+body.dark .student-profile-header .student-title {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .student-icon {
+    background: rgba(105,92,254,0.6);
+    color: #f4f6ff;
+}
+
+body.dark .back-btn,
+body.dark .edit-btn {
+    background: rgba(105,92,254,0.3);
+    color: #e6e9ff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+body.dark .back-btn:hover,
+body.dark .edit-btn:hover {
+    background: rgba(105,92,254,0.45);
+}
+
+body.dark .student-profile-container {
+    background: #2b2d3c;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+body.dark .profile-header {
+    border-bottom: 2px solid rgba(255,255,255,0.08);
+}
+
+body.dark .profile-avatar {
+    background: #695CFE;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(105,92,254,0.3);
+}
+
+body.dark .profile-basic-info h1,
+body.dark .profile-title,
+body.dark .profile-id {
+    color: rgba(234,236,255,0.85);
+}
+
+body.dark .profile-id {
+    background: rgba(105,92,254,0.24);
+}
+
+body.dark .detail-section,
+body.dark .courses-section {
+    background: rgba(43,45,60,0.85);
+    border-left-color: rgba(105,92,254,0.75);
+    color: rgba(214,218,255,0.82);
+}
+
+body.dark .detail-section h3,
+body.dark .courses-section h3 {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .detail-item i,
+body.dark .courses-section h3 i {
+    color: rgba(149,132,255,0.9);
+}
+
+body.dark .detail-label {
+    color: rgba(214,218,255,0.82);
+}
+
+body.dark .detail-value,
+body.dark .course-code,
+body.dark .course-name {
+    color: rgba(234,236,255,0.85);
+}
+
+body.dark .course-status {
+    background: #eaf7ea !important;
+    color: #2c8031 !important;
+}
+
+body.dark .course-item {
+    background: rgba(43,45,60,0.85);
+    border-left-color: rgba(105,92,254,0.75);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    color: rgba(214,218,255,0.82);
+}
+
+body.dark .course-item:hover {
+    background: rgba(105,92,254,0.18);
+}
+
+body.dark .profile-status {
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark .status-info,
+body.dark .status-item,
+body.dark .status-select {
+    color: rgba(214,218,255,0.82);
+}
+
+body.dark select.status-select,
+body.dark .status-select,
+body.dark option {
+    background-color: #2b2d3c !important;
+    color: #eaeaff !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+}
+
+body.dark .status-item i {
+    color: rgba(149,132,255,0.9);
+}
+
+body.dark .student-status.status-active {
+    background: rgba(129,199,132,0.28);
+    color: #c8f7ce;
+}
+
+body.dark .student-status.status-inactive {
+    background: rgba(255,196,122,0.38);
+    color: #ffd180;
+}
+
+/* ================================
+   INSTRUCTOR REPORT (Dark Mode)
+==================================*/
+
+body.dark {
+  background: #2b2d3c;
+  color: rgba(214,218,255,0.82);
+  font-family: "Poppins", sans-serif;
+}
+
+body.dark .report-header-card{ 
+    background: rgba(43,45,60,0.95);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    border-bottom: 3px solid rgba(105,92,254,0.5);
+}
+
+body.dark .header {
+  background: rgba(43,45,60,0.95);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  border-bottom: 3px solid rgba(105,92,254,0.5);
+}
+
+body.dark .header .logo {
+  color: #695CFE;
+}
+
+body.dark .user-avatar {
+  background: rgba(105,92,254,0.6);
+  color: #f4f6ff;
+}
+
+body.dark .page-title h1 {
+  color: rgba(234,236,255,0.88);
+}
+
+body.dark .progress-overview {
+  gap: 20px;
+  padding: 24px 0;
+  flex-wrap: wrap;
+}
+
+body.dark .progress-card {
+  background: rgba(43,45,60,0.85);
+  color: rgba(214,218,255,0.82);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+body.dark .progress-card h3 {
+  color: rgba(234,236,255,0.88);
+}
+
+body.dark .progress-card .number,
+body.dark .progress-card .percentage {
+  color: #695CFE;
+}
+
+body.dark .report-view-toolbar {
+  padding: 0 0 10px;
+}
+
+body.dark .report-view-toggle {
+  background: rgba(43, 45, 60, 0.85);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark .toggle-btn {
+  color: rgba(234, 236, 255, 0.78);
+}
+
+body.dark .toggle-btn.active {
+  background: linear-gradient(135deg, rgba(105, 92, 254, 0.9) 0%, rgba(240, 123, 36, 0.9) 100%);
+  color: #f4f6ff;
+  box-shadow: 0 8px 20px rgba(105, 92, 254, 0.35);
+}
+
+body.dark .card {
+  background: rgba(43,45,60,0.85);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  color: rgba(214,218,255,0.82);
+}
+
+body.dark .card-header {
+  background: rgba(105,92,254,0.6);
+  color: #f4f6ff;
+}
+
+body.dark .card-header h2 {
+  color: #f4f6ff;
+}
+
+body.dark .lessons-table {
+  background: rgba(43,45,60,0.85);
+  color: rgba(214,218,255,0.82);
+}
+
+body.dark .lessons-table th {
+  background: rgba(105,92,254,0.2);
+  color: #e6e9ff;
+}
+
+body.dark .lessons-table td {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark .lessons-table tr:hover td {
+  background: rgba(105,92,254,0.18);
+}
+
+body.dark .student-cell {
+  color: rgba(214,218,255,0.82);
+}
+
+body.dark .student-avatar {
+  background: rgba(105,92,254,0.45);
+  color: #f4f6ff;
+}
+
+body.dark .report-view-section .student-avatar {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f4f6ff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+body.dark .progress-bar {
+  background: rgba(255,255,255,0.1);
+}
+
+body.dark .progress-fill {
+  background: #695CFE;
+}
+
+body.dark .progress-label {
+  color: rgba(214,218,255,0.82);
+}
+
+body.dark .students-flat-table {
+  background: rgba(43,45,60,0.85);
+  color: rgba(214,218,255,0.82);
+}
+
+body.dark .students-flat-table th {
+  background: rgba(105,92,254,0.2);
+  color: #e6e9ff;
+}
+
+body.dark .students-flat-table td {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark .students-flat-table tr:hover td {
+  background: rgba(105,92,254,0.18);
+}
+
+body.dark .courses-chip-list {
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  padding: 6px;
+  gap: 8px;
+}
+
+body.dark .course-chip {
+  background: rgba(105,92,254,0.28);
+  color: #e6e9ff;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark .muted {
+  color: rgba(214,218,255,0.6);
+}
+
+body.dark .view-btn {
+  background: rgba(105,92,254,0.3);
+  color: #e6e9ff;
+}
+
+body.dark .view-btn:hover {
+  background: rgba(105,92,254,0.45);
+}
+
+body.dark .no-data {
+  color: rgba(214,218,255,0.72);
+}
+
+/* ================================
+   STUDENT REPORT DARK MODE
+==================================*/
+
+body.dark {
+    background: #2b2d3c;
+    color: rgba(214,218,255,0.85);
+}
+
+body.dark .header {
+    background: rgba(43,45,60,0.95);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    border-radius: 12px;
+}
+
+body.dark .report-header-card {
+    background: rgba(43,45,60,0.95) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35) !important;
+    border-bottom: 3px solid rgba(105,92,254,0.5) !important;
+}
+
+body.dark .logo {
+    color: #695CFE;
+}
+
+body.dark .user-avatar,
+body.dark .student-avatar-large {
+    background: rgba(105,92,254,0.6);
+    color: #f4f6ff;
+}
+
+body.dark .page-title h1 {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .card {
+    background: rgba(43,45,60,0.85);
+    color: rgba(214,218,255,0.82);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+body.dark .card-header {
+    background: rgba(43,45,60,0.95) !important;
+}
+
+body.dark .back-btn {
+    background-color: rgba(105,92,254,0.3);
+    color: #e6e9ff;
+}
+
+body.dark .back-btn:hover {
+    background-color: rgba(105,92,254,0.45);
+}
+
+body.dark .student-info {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark .student-info h2 {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .student-id {
+    color: #695CFE;
+}
+
+body.dark .student-email {
+    color: rgba(180,185,255,0.7);
+}
+
+body.dark .progress-overview {
+    gap: 20px;
+}
+
+body.dark .progress-card {
+    background: rgba(43,45,60,0.85);
+    color: rgba(214,218,255,0.82);
+    border-left: 4px solid #695CFE;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+body.dark .progress-card h3 {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .progress-card .number,
+body.dark .progress-card .percentage {
+    color: #695CFE;
+}
+
+body.dark .progress-bar {
+    background: rgba(255,255,255,0.1);
+}
+
+body.dark .progress-fill {
+    background-color: #695CFE;
+}
+
+body.dark .section h2 {
+    color: #695CFE;
+}
+
+body.dark .lesson-item {
+    color: rgba(214,218,255,0.82);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark .lesson-item:hover {
+    background-color: rgba(105,92,254,0.18);
+}
+
+body.dark .lesson-date {
+    color: rgba(180,185,255,0.7);
+}
+
+body.dark .status-tag.success {
+    background-color: rgba(129,199,132,0.28);
+    color: #c8f7ce;
+}
+
+body.dark .status-tag.warning {
+    background-color: rgba(255,196,122,0.38);
+    color: #ffd180;
+}
+
+body.dark .no-data {
+    color: rgba(214,218,255,0.72);
+}
+
+body.dark .meta {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: rgba(214,218,255,0.78);
+}
+
+body.dark .meta i {
+    color: #695CFE;
+}
+
+/* Responsive adjustments are kept as-is */
+
+/* ===============================
+   STUDENT OVERALL PROGRESS DARK MODE
+==================================*/
+
+body.dark {
+    background: #2b2d3c;
+    color: rgba(214,218,255,0.85);
+}
+
+body.dark .page-header,
+body.dark .main-container {
+    background: rgba(43,45,60,0.85);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    color: rgba(214,218,255,0.85);
+}
+
+body.dark .page-title {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .title-icon {
+    background: #695CFE;
+}
+
+body.dark .student-info-badge {
+    background: rgba(64,66,85,0.6);
+}
+
+body.dark .student-info-badge .avatar {
+    background: #695CFE;
+    color: #f4f6ff;
+}
+
+body.dark .stat-card {
+    background: rgba(64,66,85,0.85);
+    color: white;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+body.dark .stat-card.orange {
+    background: #ff9800;
+    box-shadow: 0 8px 20px rgba(255, 138, 101, 0.3);
+}
+
+body.dark .stat-card.green {
+    background: #36973b;
+    box-shadow: 0 8px 20px rgba(54, 151, 59, 0.3);
+}
+
+body.dark .stat-card.pink {
+    background: #f093fb;
+    box-shadow: 0 8px 20px rgba(240, 147, 251, 0.3);
+}
+
+body.dark .stat-card h3,
+body.dark .stat-card .label {
+    color: rgba(214,218,255,0.85);
+}
+
+body.dark .progress-ring-circle-bg {
+    stroke: rgba(255,255,255,0.2);
+}
+
+body.dark .progress-ring-circle {
+    stroke: #695CFE;
+}
+
+body.dark .progress-value {
+    color: #ffffff;
+}
+
+body.dark .section-header h2 {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .section-header h2 i {
+    color: #695CFE;
+}
+
+body.dark .course-card {
+    background: rgba(43,45,60,0.85);
+    color: rgba(214,218,255,0.85);
+    border-left: 5px solid #695CFE;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+body.dark .course-card:hover {
+    background: rgba(64,66,85,0.95);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+body.dark .course-id,
+body.dark .course-status {
+    color: #fff;
+}
+
+body.dark .status-in-progress {
+    background: rgba(255,196,122,0.3);
+    color: #ffd180;
+}
+
+body.dark .status-completed {
+    background: rgba(54,151,59,0.3);
+    color: #c8f7ce;
+}
+
+body.dark .course-name,
+body.dark .stat-value {
+    color: rgba(234,236,255,0.88);
+}
+
+body.dark .progress-bar {
+    background: rgba(255,255,255,0.1);
+}
+
+body.dark .progress-bar-fill {
+    background: #695CFE;
+}
+
+body.dark .view-details {
+    background: #695CFE;
+    color: #fff;
+}
+
+body.dark .view-details:hover {
+    background: #5649d9;
+    transform: scale(1.02);
+}
+
+body.dark .completion-estimate {
+    background: #695CFE;
+}
+
+body.dark .completion-estimate h3,
+body.dark .estimate-item .value,
+body.dark .estimate-item .label {
+    color: #fff;
+}
+
+body.dark .last-updated {
+    color: rgba(214,218,255,0.7);
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+body.dark .last-updated i {
+    color: #695CFE;
+}
+
+/* ================================
+   STUDENTS LIST (Dark Mode)
+==================================*/
+
+body.dark .students-header {
+  background: #2b2d3c;
+  color: rgba(234, 236, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .students-header::before {
+  background: rgba(105, 92, 254, 0.35);
+}
+
+body.dark .students-title {
+  color: rgba(234, 236, 255, 0.88);
+}
+
+body.dark .students-icon {
+  background: rgba(105, 92, 254, 0.6);
+  color: #f4f6ff;
+}
+
+/* ====== Table ====== */
+body.dark .students-container {
+  background: #2b2d3c;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .students-table thead {
+  background: rgba(105, 92, 254, 0.75);
+  color: #fff;
+}
+
+body.dark .students-table th,
+body.dark .students-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(234, 236, 255, 0.85);
+}
+
+body.dark .students-table tr:hover {
+  background: rgba(105, 92, 254, 0.18);
+}
+
+/* ====== No Data Text ====== */
+body.dark .no-data {
+  color: rgba(214, 218, 255, 0.7);
+}
+
+/* ====== Buttons ====== */
+body.dark .view-btn {
+  background: rgba(105, 92, 254, 0.4);
+  color: #e6e9ff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .view-btn:hover {
+  background: rgba(105, 92, 254, 0.55);
+  box-shadow: 0 6px 20px rgba(105, 92, 254, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ====== Responsive Fix ====== */
+@media (max-width: 768px) {
+  body.dark .students-container {
+    background: #2b2d3c;
+  }
+
+  body.dark .students-title {
+    color: rgba(234, 236, 255, 0.9);
+  }
+}

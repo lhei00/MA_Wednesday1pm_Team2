@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+  --body-color: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  --sidebar-color: #FFF;
+  --primary-color: #f07b24;
+  --secondary-color: #2b2b2b;
+  --primary-color-light: #FFF3E0;
+  --toggle-color: #DDD;
+  --text-color: #333;
+  --black-color: #0a0909;
+  --light-text: #888;
+  --bg-color: #fdfdfd;
+  --card-bg: #ffffff;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --border-radius: 16px;
+  --accent-gradient: linear-gradient(135deg, #ff8a65 0%, #ffb74d 100%);
+}
+
+/* RESET + BODY */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  padding: 20px;
+}
+
+/* ---------------- HEADER CARD (MATCHES INSTRUCTOR REPORT) ---------------- */
+.report-header-card {
+  background: var(--accent-gradient); /* solid orange, forced override */
+  margin: 24px 32px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  position: relative;
+  z-index: 10;
+}
+
+.report-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.report-icon {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report-header-left h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+.report-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.user-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+}
+
+.user-email {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.9;
+  color: #fff;
+}
+
+/* ---------------- PAGE TITLE ---------------- */
+.page-title {
+  text-align: center;
+  margin: 25px 0 20px;
+}
+
+.page-title h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+/* ---------------- MAIN CARD ---------------- */
+.card {
+  background: var(--card-bg);
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+}
+
+.card-header h2 {
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background-color: #e26810;
+}
+
+/* ---------------- STUDENT INFO ---------------- */
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.student-avatar-large {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-weight: 700;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.student-info h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.student-id {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.student-email {
+  color: var(--light-text);
+  font-size: 14px;
+}
+
+/* ---------------- PROGRESS OVERVIEW ---------------- */
+.progress-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.progress-card {
+  background-color: #f8f9fb;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid var(--primary-color);
+}
+
+.progress-card h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.progress-card .number,
+.progress-card .percentage {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+}
+
+/* ---------------- LESSONS & CLASSROOMS ---------------- */
+.section {
+  margin-top: 30px;
+}
+
+.section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.lesson-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lesson-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.lesson-item:hover {
+  background-color: #fff8f0;
+}
+
+.lesson-date {
+  font-size: 12px;
+  color: var(--light-text);
+}
+
+/* STATUS TAGS */
+.status-tag {
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.status-tag.success {
+  background-color: #eaf7ea;
+  color: #2e8032;
+}
+
+.status-tag.warning {
+  background-color: #fff3df;
+  color: #db4e02;
+}
+
+.no-data {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  padding: 15px 0;
+}
+
+/* ---------------- META INFO ---------------- */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 13px;
+  color: #555;
+  margin-top: 25px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.meta i {
+  color: var(--primary-color);
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 768px) {
+  .report-header-card {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 10px;
+  }
+
+  .student-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .progress-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

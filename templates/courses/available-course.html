@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Available Courses{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'courses/style-course.css' %}">
+
+<div class="courses-header">
+    <div class="courses-title-section">
+        <a class="back-btn" href="{% url 'student_courses' %}">
+            <i class='bx bx-reply'></i>  Back
+        </a>
+        <div class="courses-title">
+            <div class="course-icon">
+                <i class='bx bx-book-content icon'></i>
+            </div>
+            Available Courses in Our Website!
+        </div>
+        <span id="courseLimitMsg">You can enroll in up to 4 courses ({{ enrolled_count }}/{{ max_courses }})</span>
+
+    </div>
+    </div>
+
+<div class="courses-grid active" id="coursesGrid">
+    {% for course in courses %}
+    <div class="course-card">
+        <div class="course-card-header">
+            <div class="course-info">
+                <h3>{{ course.title }}</h3>
+                {% if course.course_code %}<span class="course-code">{{ course.course_code }}</span>{% endif %}
+            </div>
+        </div>
+        {% if course.description %}
+        <p class="courses-description">{{ course.description }}</p>
+        {% endif %}
+        <div class="course-stats">
+            <div class="course-stat">
+                <i class='bx bx-group'></i>
+                <span>{{ course.student_count|default:0 }} Students</span>
+            </div>
+            
+            <a href="{% url 'student_course_preview' course.id %}" class="enroll-btn" style="background:#6c757d; margin-right:5px;">
+                Preview
+            </a>
+
+            <form method="post" action="{% url 'course_enroll' course.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'available_courses' %}">
+                <button class="enroll-btn" type="submit" {% if enrolled_count >= max_courses %}disabled title="Course limit reached"{% endif %}>Enroll</button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+    <div class="white-cover" style="text-align:center;">
+        <p>No more courses available to enroll.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

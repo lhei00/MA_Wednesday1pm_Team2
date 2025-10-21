@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ student.get_full_name }} - Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/student-profile.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+    <div class="student-profile-header">
+        <div class="student-title-section">
+            <div class="student-title">
+                <div class="student-icon"><i class='bx bx-user'></i></div>
+                Student Profile
+            </div>
+            <div class="header-actions">
+                <a href="{% url 'student_dashboard' %}" class="back-btn">
+                    <i class='bx bx-arrow-left-square'></i>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="student-profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                {{ student.first_name|slice:":1" }}{{ student.last_name|slice:":1" }}
+            </div>
+            <div class="profile-basic-info">
+                <h1>{{ student.title }} {{ student.get_full_name }}</h1>
+                <div class="profile-id">Student ID: {{ student.student_id }}</div>
+            </div>
+        </div>
+
+        <div class="profile-details">
+            <div class="detail-section">
+                <h3><i class='bx bx-form'></i> Student Information</h3>
+
+                <div class="detail-item">
+                    <i class='bx bx-user'></i>
+                    <span class="detail-label">Name:</span>
+                    <span class="detail-value">{{ student.get_full_name }}</span>
+                </div>
+                <div class="detail-item">
+                    <i class='bx bx-envelope'></i>
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value">{{ student.email }}</span>
+                </div>
+                <div class="detail-item">
+                    <i class='bx bx-book-bookmark'></i>
+                    <span class="detail-label">Student ID:</span>
+                    <span class="detail-value">{{ student.student_id }}</span>
+                </div>
+                <div class="detail-item">
+                    <i class='bx bx-calendar-alt'></i>
+                    <span class="detail-label">Account Created:</span>
+                    <span class="detail-value">{{ student.date_joined|date:"F d, Y" }}</span>
+                </div>
+                <div class="detail-item">
+                    <i class='bx bx-check-circle'></i>
+                    <span class="detail-label">Status:</span>
+                    <select id="studentStatus" class="status-select {% if student.is_active %}status-active{% else %}status-inactive{% endif %}">
+                        <option value="active" {% if student.is_active %}selected{% endif %}>Active</option>
+                        <option value="inactive" {% if not student.is_active %}selected{% endif %}>Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="courses-section">
+            <h3>
+                <i class='bx bx-book-alt'></i>
+                Courses Enrolled
+                <span style="background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; margin-left: auto;">
+                    {{ courses|length }}
+                </span>
+            </h3>
+            <ul class="course-list">
+                {% for course in courses %}
+                    <li class="course-item">
+                        <div class="course-info">
+                            <div class="course-name">{{ course.course_code }} - {{ course.title }}</div>
+                        </div>
+                        <div class="course-status">
+                            {{ course.get_status_display }}
+                        </div>
+                    </li>
+                {% empty %}
+                    <li>No courses enrolled yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

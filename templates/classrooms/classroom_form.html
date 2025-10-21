@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% firstof page_title "Create New Classroom" %} | Course Manager{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'classrooms/create_classroom.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="create-classroom-page">
+    <div class="container">
+        {% url 'classrooms' as classrooms_url %}
+        <div class="header">
+            <div class="logo">
+                <i class='bx bx-book-open'></i>
+                <h2>Course Manager</h2>
+            </div>
+            <div>
+                <a href="{{ back_url|default:classrooms_url }}" class="btn btn-orange">
+                    <i class='bx bx-arrow-left'></i> {{ back_label|default:"Back to Classrooms" }}
+                </a>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>{{ page_title|default:"Create New Classroom" }}</h1>
+            <p>{{ page_subtitle|default:"Fill in the details below to create a new classroom for your students" }}</p>
+        </div>
+
+        <div class="card">
+            {% if form.non_field_errors %}
+                <div class="message-container">
+                    {% for error in form.non_field_errors %}
+                        <div class="alert">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if formset.non_form_errors %}
+                <div class="message-container">
+                    {% for error in formset.non_form_errors %}
+                        <div class="alert">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form id="createClassroomForm" method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="form-section">
+                    <h2>Basic Information</h2>
+
+                    <div class="form-group">
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+                        <span class="form-hint">Choose a name that clearly identifies the class and subject</span>
+                        {% if form.name.errors %}
+                            <div class="error-message show">{{ form.name.errors|join:", " }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.course.label_tag }}
+                            {{ form.course }}
+                            {% if form.course.errors %}
+                                <div class="error-message show">{{ form.course.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.supervisor.label_tag }}
+                            {{ form.supervisor }}
+                            {% if form.supervisor.errors %}
+                                <div class="error-message show">{{ form.supervisor.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Class Duration</h2>
+                    <div class="form-group">
+                        {{ form.duration_weeks.label_tag }}
+                        {{ form.duration_weeks }}
+                        <span class="form-hint">The class will start today and run for the selected number of weeks</span>
+                        <span class="error-message{% if form.duration_weeks.errors %} show{% endif %}" id="durationError">Please select a valid duration</span>
+                        {% if form.duration_weeks.errors %}
+                            <div class="error-message show">{{ form.duration_weeks.errors|join:", " }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Class Schedule</h2>
+                    <p>Add the days, lessons and times when this class will meet</p>
+
+                    <div class="table-container">
+                        {{ formset.management_form }}
+                        <table class="timetable" id="scheduleTable" data-formset-prefix="{{ formset.prefix }}">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Lesson</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for schedule_form in formset %}
+                                    {# Hidden primary key field #}
+                                    <tr class="schedule-form-row{% if schedule_form.DELETE.value %} schedule-row-hidden{% endif %}" data-form-index="{{ forloop.counter0 }}"{% if schedule_form.DELETE.value %} data-deleted="true"{% endif %}>
+                                        <td>
+                                            <span class="hidden-input">{{ schedule_form.id }}</span>
+                                            {{ schedule_form.day }}
+                                            {% if schedule_form.day.errors %}
+                                                <div class="error-message show">{{ schedule_form.day.errors|join:", " }}</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ schedule_form.lesson }}
+                                            {% if schedule_form.lesson.errors %}
+                                                <div class="error-message show">{{ schedule_form.lesson.errors|join:", " }}</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ schedule_form.start_time }}
+                                            {% if schedule_form.start_time.errors %}
+                                                <div class="error-message show">{{ schedule_form.start_time.errors|join:", " }}</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ schedule_form.end_time }}
+                                            {% if schedule_form.end_time.errors %}
+                                                <div class="error-message show">{{ schedule_form.end_time.errors|join:", " }}</div>
+                                            {% endif %}
+                                            {% if schedule_form.non_field_errors %}
+                                                <div class="error-message show">{{ schedule_form.non_field_errors|join:", " }}</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn remove-row"><i class='bx bx-trash'></i></button>
+                                            <span class="hidden-input">
+                                                {% if schedule_form.DELETE %}{{ schedule_form.DELETE }}{% endif %}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button type="button" class="add-row-btn" id="addRowBtn">
+                        <i class='bx bx-plus'></i> Add Another Meeting Time
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <h2>Additional Settings</h2>
+
+                    <div class="form-group">
+                        {{ form.description.label_tag }}
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="error-message show">{{ form.description.errors|join:", " }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.meeting_link.label_tag }}
+                        {{ form.meeting_link }}
+                        <span class="form-hint">Share a Zoom, Teams, Meet, or other online meeting URL students can join (optional).</span>
+                        {% if form.meeting_link.errors %}
+                            <div class="error-message show">{{ form.meeting_link.errors|join:", " }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.class_code.label_tag }}
+                        {{ form.class_code }}
+                        <span class="form-hint">Students can use this code to join the class</span>
+                        {% if form.class_code.errors %}
+                            <div class="error-message show">{{ form.class_code.errors|join:", " }}</div>
+                        {% endif %}
+                    </div>
+                <div class="form-actions">
+                    {% if is_edit and delete_url %}
+                    <form id="deleteClassroomForm" class="delete-classroom-form" method="post" action="{{ delete_url }}">
+                        {% csrf_token %}
+                        <button type="submit" class="action-btn delete-btn">
+                            <i class='bx bx-trash'></i> Delete Classroom
+                        </button>
+                    </form>
+                    {% endif %}
+                    <a href="{{ cancel_url|default:classrooms_url }}" class="btn btn-cancel">
+                        <i class='bx bx-x'></i> {{ cancel_label|default:"Cancel" }}
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class='{{ submit_icon|default:"bx bx-check" }}'></i> {{ submit_label|default:"Create Classroom" }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<template id="schedule-empty-form">
+    <tr class="schedule-form-row" data-form-index="__prefix__">
+        <td>
+            <span class="hidden-input">{{ formset.empty_form.id }}</span>
+            {{ formset.empty_form.day }}
+        </td>
+        <td>
+            {{ formset.empty_form.lesson }}
+        </td>
+        <td>
+            {{ formset.empty_form.start_time }}
+        </td>
+        <td>
+            {{ formset.empty_form.end_time }}
+        </td>
+        <td>
+            <button type="button" class="btn remove-row"><i class='bx bx-trash'></i></button>
+            <span class="hidden-input">{% if formset.can_delete %}{{ formset.empty_form.DELETE }}{% endif %}</span>
+        </td>
+    </tr>
+</template>
+{% endblock %}
+
+{% block extra_js %}
+{% if lessons_by_course %}
+    {{ lessons_by_course|json_script:"lessons-by-course-data" }}
+{% endif %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('createClassroomForm');
+        const durationField = document.getElementById('duration');
+        const durationError = document.getElementById('durationError');
+        const courseField = document.getElementById('course');
+        const lessonsDataElement = document.getElementById('lessons-by-course-data');
+        let lessonsByCourse = {};
+        if (lessonsDataElement) {
+            try {
+                lessonsByCourse = JSON.parse(lessonsDataElement.textContent);
+            } catch (error) {
+                console.error('Unable to parse lessons data', error);
+            }
+        }
+        const addRowBtn = document.getElementById('addRowBtn');
+        const scheduleTable = document.getElementById('scheduleTable');
+        if (!scheduleTable) {
+            return;
+        }
+        const tableBody = scheduleTable.querySelector('tbody');
+        if (!tableBody) {
+            return;
+        }
+        const formsetPrefix = scheduleTable.dataset.formsetPrefix || 'form';
+        const totalFormsInput = document.getElementById(`id_${formsetPrefix}-TOTAL_FORMS`);
+        const emptyFormTemplateElement = document.getElementById('schedule-empty-form');
+        if (!totalFormsInput || !emptyFormTemplateElement) {
+            return;
+        }
+        const emptyFormTemplate = emptyFormTemplateElement.innerHTML.trim();
+
+        const timeInputs = tableBody.querySelectorAll('.time-input');
+        timeInputs.forEach(input => {
+            input.addEventListener('change', handleTimeChange);
+        });
+
+        const removeButtons = tableBody.querySelectorAll('.remove-row');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', handleRemoveRow);
+        });
+
+        if (addRowBtn) {
+            addRowBtn.addEventListener('click', addRow);
+        }
+
+        if (durationField) {
+            durationField.addEventListener('change', validateDuration);
+        }
+
+        if (courseField) {
+            courseField.addEventListener('change', function () {
+                updateLessonSelects(true);
+            });
+        }
+
+        const draftBtn = document.getElementById('saveDraftBtn');
+        if (draftBtn) {
+            draftBtn.addEventListener('click', function () {
+                alert('Draft functionality is not available yet.');
+            });
+        }
+
+        const deleteForm = document.getElementById('deleteClassroomForm');
+        if (deleteForm) {
+            deleteForm.addEventListener('submit', function (event) {
+                const confirmed = confirm('Are you sure you want to delete "{{ classroom.name|escapejs }}"?');
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+            });
+        }
+
+        updateRemoveButtons();
+        updateLessonSelects();
+
+        if (form) {
+            form.addEventListener('submit', function (event) {
+                const durationValid = validateDuration();
+                const timesValid = validateAllTimes();
+                if (!durationValid || !timesValid) {
+                    event.preventDefault();
+                }
+            });
+        }
+
+        function getLessonSelects() {
+            if (!tableBody) {
+                return [];
+            }
+            return Array.from(tableBody.querySelectorAll('select.lesson-select'));
+        }
+
+        function updateLessonSelects(clearSelection = false) {
+            if (!tableBody) {
+                return;
+            }
+            const courseId = courseField ? courseField.value : '';
+            const lessons = courseId && lessonsByCourse[courseId] ? lessonsByCourse[courseId] : [];
+            const hasCourse = Boolean(courseId);
+
+            getLessonSelects().forEach(select => {
+                const previousValue = clearSelection ? '' : select.value;
+                select.innerHTML = '';
+
+                const placeholderOption = document.createElement('option');
+                placeholderOption.value = '';
+                if (!hasCourse) {
+                    placeholderOption.textContent = 'Select a course first';
+                    select.disabled = true;
+                } else if (!lessons.length) {
+                    placeholderOption.textContent = 'No lessons available';
+                    select.disabled = true;
+                } else {
+                    placeholderOption.textContent = 'Select lesson';
+                    select.disabled = false;
+                }
+                placeholderOption.selected = true;
+                select.appendChild(placeholderOption);
+
+                if (hasCourse) {
+                    lessons.forEach(lesson => {
+                        const option = document.createElement('option');
+                        option.value = String(lesson.id);
+                        option.textContent = lesson.label;
+                        select.appendChild(option);
+                    });
+
+                    if (!clearSelection && previousValue && lessons.some(lesson => String(lesson.id) === previousValue)) {
+                        select.value = previousValue;
+                        placeholderOption.selected = false;
+                    } else {
+                        select.value = '';
+                    }
+                } else {
+                    select.value = '';
+                }
+            });
+        }
+
+        function addRow() {
+            const formIndex = parseInt(totalFormsInput.value, 10);
+            const newRowHtml = emptyFormTemplate.replace(/__prefix__/g, formIndex);
+            const wrapper = document.createElement('tbody');
+            wrapper.innerHTML = newRowHtml;
+            const newRow = wrapper.querySelector('tr');
+            tableBody.appendChild(newRow);
+            totalFormsInput.value = formIndex + 1;
+
+            const newTimeInputs = newRow.querySelectorAll('.time-input');
+            newTimeInputs.forEach(input => {
+                input.addEventListener('change', handleTimeChange);
+            });
+
+            const removeBtn = newRow.querySelector('.remove-row');
+            if (removeBtn) {
+                removeBtn.addEventListener('click', handleRemoveRow);
+            }
+
+            updateRemoveButtons();
+            updateLessonSelects();
+        }
+
+        function handleRemoveRow(event) {
+            const button = event.currentTarget;
+            const row = button.closest('tr');
+            if (!row) {
+                return;
+            }
+
+            const activeRows = getActiveRows();
+            if (activeRows.length <= 1) {
+                return;
+            }
+
+            const deleteInput = row.querySelector('input[type="checkbox"][name$="-DELETE"]');
+            if (deleteInput) {
+                deleteInput.checked = true;
+            }
+            row.setAttribute('data-deleted', 'true');
+            row.classList.add('schedule-row-hidden');
+
+            updateRemoveButtons();
+        }
+
+        function getActiveRows() {
+            return Array.from(tableBody.querySelectorAll('.schedule-form-row')).filter(row => row.getAttribute('data-deleted') !== 'true');
+        }
+
+        function updateRemoveButtons() {
+            const activeRows = getActiveRows();
+            const disable = activeRows.length <= 1;
+            activeRows.forEach(row => {
+                const button = row.querySelector('.remove-row');
+                if (button) {
+                    button.disabled = disable;
+                }
+            });
+        }
+
+        function validateDuration() {
+            if (!durationField) {
+                return true;
+            }
+            const isValid = Boolean(durationField.value);
+            durationField.classList.toggle('error', !isValid);
+            if (durationError) {
+                durationError.classList.toggle('show', !isValid);
+            }
+            return isValid;
+        }
+
+        function handleTimeChange(event) {
+            validateTimeRow(event.target.closest('tr'));
+        }
+
+        function validateAllTimes() {
+            const rows = getActiveRows();
+            let valid = true;
+            rows.forEach(row => {
+                const rowValid = validateTimeRow(row);
+                if (!rowValid) {
+                    valid = false;
+                }
+            });
+            return valid;
+        }
+
+        function validateTimeRow(row) {
+            if (!row) {
+                return true;
+            }
+            const startInput = row.querySelector('[name$="-start_time"]');
+            const endInput = row.querySelector('[name$="-end_time"]');
+            if (!startInput || !endInput) {
+                return true;
+            }
+            const startValue = startInput.value;
+            const endValue = endInput.value;
+            const isValid = !startValue || !endValue || endValue > startValue;
+            endInput.classList.toggle('error', !isValid);
+            return isValid;
+        }
+    });
+</script>
+{% endblock %}

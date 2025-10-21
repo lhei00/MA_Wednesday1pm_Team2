@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'classrooms/classroom_preview.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="card header-card">
+        <div class="card-header">
+            <h1 class="card-title">{{ classroom.name }}</h1>
+            <a href="{% url 'classrooms' %}" class="back-btn">
+                <i class="bx bx-arrow-back"></i> Back to Classrooms
+            </a>
+        </div>
+    </div>
+    <!-- Classroom info cards -->
+    <div class="card">
+        <div class="classroom-info">
+            <div class="info-item">
+                <h3>Class Code</h3>
+                <p>{{classroom.class_code|default:"N/A" }}</p>
+            </div>
+            <div class="info-item">
+                <h3>Course</h3>
+                <p>{{classroom.course}}</p>
+            </div>
+            <div class="info-item">
+                <h3>Supervisor</h3>
+                <p>{{classroom.supervisor.get_full_name}} ({{classroom.supervisor.email}})</p>
+            </div>
+            <div class="info-item">
+                <h3>Duration</h3>
+                <p>{{ classroom.duration_weeks }} Weeks</p>
+            </div>
+            <div class="info-item">
+                <h3>Students Enrolled</h3>
+                <p>{{ classroom.student_count|default:0 }}</p>
+            </div>
+            {% if classroom.meeting_link %}
+            <div class="info-item">
+                <h3>Online Meeting</h3>
+                <p><a href="{{ classroom.meeting_link }}" target="_blank" rel="noopener" class="meeting-link">Join meeting</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card">
+        <h2 class="section-title">Lesson Schedule</h2>
+        <div class="table-container">
+            {% if schedules %}
+            <table class="lessons-table">
+                <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Lesson</th>
+                    <th>Start</th>
+                    <th>End</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for schedule in schedules %}
+                <tr>
+                    <td>{{ schedule.get_day_display }}</td>
+                    <td>{{ schedule.lesson.title }}</td>
+                    <td>{{ schedule.start_time|time:"H:i" }}</td>
+                    <td>{{ schedule.end_time|time:"H:i" }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-data">
+                No lessons scheduled yet.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
