@@ -325,4 +325,21 @@ textarea {
   accent-color: var(--primary-color);
 }
 
+.help-text {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.checkbox-grid .empty-state {
+  background: #fdfdff;
+  border: 1px dashed #cfd4ff;
+  color: #6f6f87;
+  font-style: italic;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
 

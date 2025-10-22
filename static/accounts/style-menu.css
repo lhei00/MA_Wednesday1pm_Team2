@@ -538,7 +538,7 @@ body.dark .dm-switch::before {
 
 .card-description {
     font-size: 16px;
-    color: var(--text-color);
+    color: black;
     margin-bottom: 20px;
     line-height: 1.6;
 }

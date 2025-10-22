@@ -68,8 +68,29 @@
     </div>
 
     <div class="form-group">
-      <label>Prerequisites</label>
-      {{ form.prerequisites }}
+      <label for="id_prerequisites">Prerequisites</label>
+      {% if form.prerequisites.errors %}
+        <div class="errors" style="margin-bottom:8px; color:#b00020;">
+          {{ form.prerequisites.errors }}
+        </div>
+      {% endif %}
+      {% if form.prerequisites.help_text %}
+        <p class="help-text">{{ form.prerequisites.help_text }}</p>
+      {% endif %}
+      <ul class="checkbox-grid">
+        {% for checkbox in form.prerequisites %}
+          <li>
+            <label>
+              {{ checkbox.tag }}
+              <span>{{ checkbox.choice_label }}</span>
+            </label>
+          </li>
+        {% empty %}
+          <li class="empty-state">
+            <span>No other lessons available yet to set as prerequisites.</span>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
 
     <div class="lesson-section">
