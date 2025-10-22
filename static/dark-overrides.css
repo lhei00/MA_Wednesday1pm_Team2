@@ -250,6 +250,35 @@ body.dark .row input {
     color: rgba(234, 236, 255, 0.85);
 }
 
+body.dark .checkbox-grid li {
+    background: rgba(105, 92, 254, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(234, 236, 255, 0.88);
+}
+
+body.dark .checkbox-grid li:hover {
+    background: rgba(105, 92, 254, 0.28);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .checkbox-grid li label {
+    color: rgba(234, 236, 255, 0.88);
+}
+
+body.dark .checkbox-grid .empty-state {
+    background: rgba(105, 92, 254, 0.1);
+    border: 1px dashed rgba(214, 218, 255, 0.35);
+    color: rgba(214, 218, 255, 0.7);
+}
+
+body.dark .checkbox-grid li input[type="checkbox"] {
+    accent-color: #8c82ff;
+}
+
+body.dark .help-text {
+    color: rgba(214, 218, 255, 0.7);
+}
+
 body.dark .add-btn {
     background: #695CFE;
     color: #fff;
