@@ -7,3 +7,5 @@ run in terminal:
 3. pip install -r requirements.txt
 4. cd Backend
 5. python manage.py runserver
+
+Hi this is not a real project
