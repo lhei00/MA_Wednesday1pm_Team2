@@ -9,3 +9,4 @@ run in terminal:
 5. python manage.py runserver
 
 Hi this is not a real project
+Again, this is testing
